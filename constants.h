@@ -1,0 +1,17 @@
+#ifndef CONSTANTS__H
+#define CONSTANTS__H
+
+const int SCREEN_WIDTH = 900;
+const int SCREEN_HEIGHT = 600;
+const char WINDOW_TITLE[] = "Snake_better_version Game";
+const int CELL_SIZE = 30;
+
+const int BOARD_WIDTH = 30;
+const int BOARD_HEIGHT = 20;
+
+const SDL_Color BOARD_COLOR = {0 , 0 , 0};
+const SDL_Color LINE_COLOR = {128, 128, 128};
+
+const int STEP_DELAY = 0.2;
+
+#endif // CONSTANTS__H
