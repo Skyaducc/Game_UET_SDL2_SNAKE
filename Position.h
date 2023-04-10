@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+using namespace std;
+
 enum Direction
 {
     UP = 0 , DOWN , LEFT , RIGHT
@@ -41,6 +43,7 @@ struct Position
     }
     bool isInsideBox(int left , int top , int width , int height) const
     {
+//        cout << left << " " << top << " " << width << " " << height << " " << x << " " << y << endl;
         return x >= left && x < left + width && y >= top && y < top + height;
     }
     bool operator == (Position p) const

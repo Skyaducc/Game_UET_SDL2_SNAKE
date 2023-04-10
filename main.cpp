@@ -20,7 +20,7 @@ int playerSelect;
 Gallery* gallery = nullptr;
 Text* textTexture = nullptr;
 Button* buttonPlay = nullptr;
-Button* buttonMore = nullptr;
+Button* buttonMode = nullptr;
 Button* buttonRule = nullptr;
 Button* buttonYes = nullptr;
 Button* buttonNo = nullptr;
@@ -39,7 +39,7 @@ int main( int argc, char* argv[])
     Game game(BOARD_WIDTH , BOARD_HEIGHT);
 
     buttonPlay = new Button(370 , 180 , 170 , 60);
-//    buttonMore = new Button(170 , 60);
+//    buttonMode = new Button(170 , 60);
 //    buttonRule = new Button(170 , 60);
 //    buttonYes = new Button(370 , 180 , 170 , 60);
 //    buttonNo = new Button(370 , 270 , 170 , 60);
@@ -71,7 +71,7 @@ int main( int argc, char* argv[])
             renderGamePlay(renderer , game , gallery , textTexture);
             start = end;
         }
-        SDL_Delay(100);
+        SDL_Delay(150);
     }
     textTexture->free();
     TTF_CloseFont(Font);

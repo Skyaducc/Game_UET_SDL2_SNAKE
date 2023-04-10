@@ -45,6 +45,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="mouse_event.cpp" />
 		<Unit filename="mouse_event.h" />
+		<Unit filename="snake_bot.cpp" />
+		<Unit filename="snake_bot.h" />
 		<Unit filename="texture.h" />
 		<Unit filename="tt_font.cpp" />
 		<Unit filename="tt_font.h" />

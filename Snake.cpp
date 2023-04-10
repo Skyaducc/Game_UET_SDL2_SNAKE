@@ -5,9 +5,7 @@
 Snake::Snake(Game& _game , Position start)
     : head(new SnakeNode(start)) , tail(head) , game(_game) , bird(0)
 {
-//    cout << "check" << endl;
-//    cout << "intilizeSnake" << game.width << " " << game.height << endl;
-//    game.snakeMoveTo(start);
+    game.snakeMoveTo(start);
 }
 
 Snake::~Snake()

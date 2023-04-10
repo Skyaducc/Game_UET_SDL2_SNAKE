@@ -6,15 +6,20 @@ using namespace std;
 Game::Game(int _width , int _height)
     : width(_width) , height(_height),
     squares(_height , vector<CellType>(_width , CELL_EMPTY)),
-    snake(*this , Position(_width / 2 , _height / 2)),
+    hasWall(_height , vector<bool>(_width , false)),
+    snake(*this , Position(0 , _height - 1)),
+    snakeBot(*this , Position(_width - 1 , 0) , _width , _height),
+    mode(GAME_MODE_ADVANCE),
     currentDirection(Direction::RIGHT),
     status(GAME_RUNNING),
-    mode(GAME_MODE_ADVANCE),
-    score(0) , numBird(0)
+    score(0) , numBird(0) , idSnakeBot(0),
+    traceSnakeBot(_width * _height , Position(0 , 0))
 {
-//    cout << "init game" << (int)(GAME_RUNNING) << " " << (int)(status) << endl;
-    snakeMoveTo(Position(_width / 2 , _height / 2));
+    snakeMoveTo(Position(0 , _height - 1));
+    addWall();
     addBird();
+    snakeBot.getPositionsTrace();
+    traceSnakeBot = snakeBot.getTraceSnakeBot();
 }
 
 Game::~Game()
@@ -47,14 +52,13 @@ void Game::nextStep()
         }
     }
     snake.move(currentDirection);
+//    cout << traceSnakeBot[idSnakeBot].x << " " << traceSnakeBot[idSnakeBot].y << endl;
+    snakeBot.move(traceSnakeBot[idSnakeBot++]);
 }
 
 void Game::snakeMoveTo(Position pos)
 {
-//    cout << "snakeMoveTo" << " ";
-//    cout << (int)(status) << " ";
-//    cout << pos.x << " " << pos.y << " ";
-//    cout << (int)(getCellType(pos)) << " " << squares[pos.y][pos.x] << endl;
+//    cout << "snakeMoveTo: " << width << " " << height << endl;
     switch(getCellType(pos))
     {
         case CELL_OFF_BOARD:
@@ -65,6 +69,7 @@ void Game::snakeMoveTo(Position pos)
                 break;
             }
         }
+        case CELL_WALL: status = GAME_OVER; break;
         case CELL_SNAKE: status = GAME_OVER; break;
         case CELL_BIRD:
         {
@@ -83,6 +88,42 @@ void Game::snakeMoveTo(Position pos)
             if(numBird % 5 == 0 && numBird > 0) score += 5;
             else score += 1;
             numBird++;
+            snakeBot.getPositionsTrace();
+            traceSnakeBot = snakeBot.getTraceSnakeBot();
+            idSnakeBot = 0;
+        }
+        default: setCellType(pos , CELL_SNAKE);
+    }
+}
+
+void Game::snakeBotMoveTo(Position pos)
+{
+    switch(getCellType(pos))
+    {
+        case CELL_BIRD:
+        {
+            for (int i=-1 ; i<=1 ; i++)
+            {
+                for (int j=-1 ; j<=1 ; j++)
+                {
+//                    if(i == 0 && j == 0)    continue;
+                    Position posTemp = {pos.x + i , pos.y + j};
+                    if(getCellType(posTemp) == CELL_BIRD)
+                    {
+
+                        setCellType(posTemp , CELL_EMPTY);
+                    }
+                }
+            }
+            snakeBot.eatbird();
+            if(numBird % 5 == 4)    addBigBird();
+            else addBird();
+            if(numBird % 5 == 0 && numBird > 0) score += 5;
+            else score += 1;
+            numBird++;
+            snakeBot.getPositionsTrace();
+            traceSnakeBot = snakeBot.getTraceSnakeBot();
+            idSnakeBot = 0;
         }
         default: setCellType(pos , CELL_SNAKE);
     }
@@ -100,13 +141,14 @@ void Game::setCellType(Position pos , CellType cellType)
 
 CellType Game::getCellType(Position pos) const
 {
+//    cout << pos.x << " " << pos.y << " " << width << " " << height << endl;
 //    cout << "getCellType " << pos.isInsideBox(0 , 0 , width , height) << " " << width << " " << height << " " << pos.x << " " << pos.y  << endl;
     return pos.isInsideBox(0 , 0 , width , height) ? squares[pos.y][pos.x] : CELL_OFF_BOARD;
 }
 
 void Game::addBird()
 {
-//    cout << "addBird" << endl;
+    cout << "addBird" << " ";
     do
     {
         Position p(rand() % width , rand() % height);
@@ -118,6 +160,7 @@ void Game::addBird()
         }
     }
     while(true);
+    cout << birdPosition.x << " " << birdPosition.y << endl;
 }
 
 void Game::addBigBird()
@@ -157,4 +200,49 @@ vector<Position> Game::getbirdPosition() const
 vector<Position> Game::getSnakePositions() const
 {
     return snake.getPositions();
+}
+
+void Game::addWall()
+{
+    int numWall = 0;
+    while(numWall <= (width * height) / 5)
+    {
+        int x = rand() % (width - 2) + 1;
+        int y = rand() % (height - 2) + 1;
+        numWall++;
+        if(!hasWall[y][x])
+        {
+            hasWall[y][x] = true;
+            Position pos(x , y);
+            setCellType(pos , CELL_WALL);
+            numWall++;
+        }
+    }
+}
+
+vector<Position> Game::getWallPosition() const
+{
+    vector<Position> res;
+    for (int x=0 ; x<width ; x++)
+    {
+        for (int y=0 ; y<height ; y++)
+        {
+            if(hasWall[y][x])
+            {
+                Position ans(x , y);
+                res.push_back(ans);
+            }
+        }
+    }
+    return res;
+}
+
+void Game::runSnakeBot()
+{
+    snakeBot.getPositionsTrace();
+}
+
+vector<Position> Game::getSnakeBotPositions() const
+{
+    return snakeBot.getPositions();
 }
