@@ -19,7 +19,6 @@ enum CellType
 {
     CELL_EMPTY = 0,
     CELL_SNAKE,
-    CELL_SNAKE_BOT,
     CELL_BIRD,
     CELL_WALL,
     CELL_OFF_BOARD
@@ -78,7 +77,8 @@ public:
     void setCellType(Position pos, CellType cellType);
 
     void runSnakeBot();
-    void snakeBotMoveTo(Position pos);
+    bool snakeBotMoveTo(Position pos);
+    void resetTraceSnakeBot();
     vector<Position> getSnakeBotPositions() const;
 };
 

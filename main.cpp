@@ -71,7 +71,7 @@ int main( int argc, char* argv[])
             renderGamePlay(renderer , game , gallery , textTexture);
             start = end;
         }
-        SDL_Delay(150);
+        SDL_Delay(200);
     }
     textTexture->free();
     TTF_CloseFont(Font);

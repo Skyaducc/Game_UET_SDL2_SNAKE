@@ -54,6 +54,7 @@ void Game::nextStep()
     snake.move(currentDirection);
 //    cout << traceSnakeBot[idSnakeBot].x << " " << traceSnakeBot[idSnakeBot].y << endl;
     snakeBot.move(traceSnakeBot[idSnakeBot++]);
+    cout << idSnakeBot << " " << traceSnakeBot[idSnakeBot].x << " " << traceSnakeBot[idSnakeBot].y << endl;
 }
 
 void Game::snakeMoveTo(Position pos)
@@ -77,7 +78,7 @@ void Game::snakeMoveTo(Position pos)
             {
                 for (int j=-1 ; j<=1 ; j++)
                 {
-                    if(i == 0 && j == 0)    continue;
+//                    if(i == 0 && j == 0)    continue;
                     Position posTemp = {pos.x + i , pos.y + j};
                     if(getCellType(posTemp) == CELL_BIRD)  setCellType(posTemp , CELL_EMPTY);
                 }
@@ -88,16 +89,15 @@ void Game::snakeMoveTo(Position pos)
             if(numBird % 5 == 0 && numBird > 0) score += 5;
             else score += 1;
             numBird++;
-            snakeBot.getPositionsTrace();
-            traceSnakeBot = snakeBot.getTraceSnakeBot();
-            idSnakeBot = 0;
+            resetTraceSnakeBot();
         }
         default: setCellType(pos , CELL_SNAKE);
     }
 }
 
-void Game::snakeBotMoveTo(Position pos)
+bool Game::snakeBotMoveTo(Position pos)
 {
+    bool checkIsCellBird = false;
     switch(getCellType(pos))
     {
         case CELL_BIRD:
@@ -110,7 +110,6 @@ void Game::snakeBotMoveTo(Position pos)
                     Position posTemp = {pos.x + i , pos.y + j};
                     if(getCellType(posTemp) == CELL_BIRD)
                     {
-
                         setCellType(posTemp , CELL_EMPTY);
                     }
                 }
@@ -121,12 +120,19 @@ void Game::snakeBotMoveTo(Position pos)
             if(numBird % 5 == 0 && numBird > 0) score += 5;
             else score += 1;
             numBird++;
-            snakeBot.getPositionsTrace();
-            traceSnakeBot = snakeBot.getTraceSnakeBot();
-            idSnakeBot = 0;
+            checkIsCellBird = true;
         }
         default: setCellType(pos , CELL_SNAKE);
     }
+    return checkIsCellBird;
+}
+
+void Game::resetTraceSnakeBot()
+{
+    snakeBot.getPositionsTrace();
+    traceSnakeBot.clear();
+    traceSnakeBot = snakeBot.getTraceSnakeBot();
+    idSnakeBot = 0;
 }
 
 void Game::snakeLeave(Position position)
@@ -148,7 +154,7 @@ CellType Game::getCellType(Position pos) const
 
 void Game::addBird()
 {
-    cout << "addBird" << " ";
+//    cout << "addBird" << " ";
     do
     {
         Position p(rand() % width , rand() % height);
@@ -160,7 +166,7 @@ void Game::addBird()
         }
     }
     while(true);
-    cout << birdPosition.x << " " << birdPosition.y << endl;
+//    cout << birdPosition.x << " " << birdPosition.y << endl;
 }
 
 void Game::addBigBird()

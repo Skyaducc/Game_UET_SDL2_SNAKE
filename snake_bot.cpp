@@ -15,7 +15,7 @@ SnakeBot::SnakeBot(Game& _game , Position start , int _width , int _height)
     traceSnakeBot(_width * _height , Position(0 , 0)),
     returnPosition(_width * _height , Position(0 , 0))
 {
-
+    startPosition = getVertice(start.x , start.y);
 }
 
 SnakeBot::~SnakeBot()
@@ -67,7 +67,7 @@ void SnakeBot::eatbird()
 void SnakeBot::move(Position newPosition)
 {
 //    cout << "move: " << newPosition.x << " " << newPosition.y << endl;
-    game.snakeBotMoveTo(newPosition);
+    bool checkIsCellBird = game.snakeBotMoveTo(newPosition);
     if(game.isGameOver())   return;
 
     if(bird > 0)
@@ -80,6 +80,7 @@ void SnakeBot::move(Position newPosition)
         game.snakeLeave(tail->position);
         slideTo(newPosition);
     }
+    if(checkIsCellBird) game.resetTraceSnakeBot();
 }
 int SnakeBot::getVertice(int x , int y)
 {
@@ -125,18 +126,19 @@ void SnakeBot::bfs()
 void SnakeBot::getPositionsTrace()
 {
     cout << "getPositionsTrace" << endl;
-    SnakeBotNode* p = tail;
+    SnakeBotNode* p = head;
     startPosition = getVertice(p->position.x , p->position.y);
+//    cout << p->position.x << " " << p->position.y << endl;
     vector<vector<CellType>> squares = game.getSquares();
-    cout << game.height << " " << game.width << endl;
-    for (int y=0 ; y<game.height ; y++)
-    {
-        for (int x=0 ; x<game.width ; x++)
-        {
-            cout << squares[y][x] << " ";
-        }
-        cout << endl;
-    }
+//    cout << game.height << " " << game.width << endl;
+//    for (int y=0 ; y<game.height ; y++)
+//    {
+//        for (int x=0 ; x<game.width ; x++)
+//        {
+//            cout << squares[y][x] << " ";
+//        }
+//        cout << endl;
+//    }
     for (int i=0 ; i<game.height * game.width ; i++)    adj[i].clear();
     traceSnakeBot.clear();
     returnPosition.clear();
@@ -153,6 +155,7 @@ void SnakeBot::getPositionsTrace()
 				int newY = y + dy[k];
 				if(checkInside(newX , newY) && (squares[newY][newX] == CELL_BIRD || squares[newY][newX] == CELL_EMPTY))
 				{
+//				    cout << x << " " << y << " " << newX << " " << newY << endl;
 					int u = getVertice(x , y);
 					int v = getVertice(newX , newY);
 					adj[u].push_back(v);
@@ -165,7 +168,8 @@ void SnakeBot::getPositionsTrace()
 	traceSnakeBot.clear();
 	getTrace(finishPosition);
 	reverse(traceSnakeBot.begin() , traceSnakeBot.end());
-	cout << "startPosion & finishPosition" << startPosition << " " << finishPosition << endl;
-    for (auto p : traceSnakeBot)    cout << p.x << " " << p.y << endl;
+//	cout << "startPosion & finishPosition" << returnPosition[startPosition].x << " " << returnPosition[startPosition].y << " ";
+//	cout << returnPosition[finishPosition].x << " " << returnPosition[finishPosition].y << endl;
+//    for (auto p : traceSnakeBot)    cout << p.x << " " << p.y << endl;
 }
 

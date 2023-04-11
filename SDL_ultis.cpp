@@ -164,7 +164,7 @@ void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery
         drawVerticalLine(renderer , left + x * CELL_SIZE , top , BOARD_HEIGHT);
     for (int y=0 ; y<=BOARD_HEIGHT ; y++)
         drawHorizontalLine(renderer , left , top + y * CELL_SIZE , BOARD_WIDTH);
-//    drawBackground(renderer , gallery->getImage(PIC_BACKGROUND) , textTexture , game);
+    drawBackground(renderer , gallery->getImage(PIC_BACKGROUND) , textTexture , game);
 //    drawBackGroundFrame(renderer , gallery->getImage(PIC_BACKGROUND_FRAME));
     drawWall(renderer , gallery->getImage(PIC_WALL) , game);
 

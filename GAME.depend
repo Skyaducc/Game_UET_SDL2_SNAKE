@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1681118273 source:c:\users\anhduc\desktop\game\main.cpp
+1681200482 source:c:\users\anhduc\desktop\game\main.cpp
 	<iostream>
 	<cstdlib>
 	<ctime>
@@ -21,7 +21,7 @@
 	"tt_font.h"
 	"mouse_event.h"
 
-1681138818 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
+1681204434 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_ttf.h>
@@ -50,14 +50,14 @@
 	"Game.h"
 	<iostream>
 
-1681126527 c:\users\anhduc\desktop\game\game.h
+1681199199 c:\users\anhduc\desktop\game\game.h
 	"Position.h"
 	"snake.h"
 	"snake_bot.h"
 	<vector>
 	<queue>
 
-1681140571 source:c:\users\anhduc\desktop\game\game.cpp
+1681204181 source:c:\users\anhduc\desktop\game\game.cpp
 	<iostream>
 	"Game.h"
 
@@ -80,7 +80,7 @@
 1680002111 c:\users\anhduc\desktop\game\mouse_event.h
 	<SDL.h>
 
-1681139925 source:c:\users\anhduc\desktop\game\snake_bot.cpp
+1681206862 source:c:\users\anhduc\desktop\game\snake_bot.cpp
 	"snake_bot.h"
 	"Game.h"
 	"constants.h"
