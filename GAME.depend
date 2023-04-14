@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1681200482 source:c:\users\anhduc\desktop\game\main.cpp
+1681455554 source:c:\users\anhduc\desktop\game\main.cpp
 	<iostream>
 	<cstdlib>
 	<ctime>
@@ -11,6 +11,7 @@
 	"Game.h"
 	"tt_font.h"
 	"mouse_event.h"
+	"mixer.h"
 
 1680172738 c:\users\anhduc\desktop\game\sdl_ultis.h
 	<iostream>
@@ -21,10 +22,11 @@
 	"tt_font.h"
 	"mouse_event.h"
 
-1681204434 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
+1681455528 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 	"SDL_ultis.h"
 	"constants.h"
 	"gallery.h"
@@ -36,7 +38,7 @@
 	"gallery.h"
 	<SDL_image.h>
 
-1681053156 c:\users\anhduc\desktop\game\constants.h
+1681456428 c:\users\anhduc\desktop\game\constants.h
 	<SDL.h>
 
 1680755483 c:\users\anhduc\desktop\game\gallery.h
@@ -80,7 +82,7 @@
 1680002111 c:\users\anhduc\desktop\game\mouse_event.h
 	<SDL.h>
 
-1681206862 source:c:\users\anhduc\desktop\game\snake_bot.cpp
+1681318905 source:c:\users\anhduc\desktop\game\snake_bot.cpp
 	"snake_bot.h"
 	"Game.h"
 	"constants.h"
@@ -92,4 +94,12 @@
 	<iostream>
 	<vector>
 	"Position.h"
+
+1681452743 source:c:\users\anhduc\desktop\game\mixer.cpp
+	"mixer.h"
+
+1681444948 c:\users\anhduc\desktop\game\mixer.h
+	<SDL_mixer.h>
+	<SDL.h>
+	<iostream>
 

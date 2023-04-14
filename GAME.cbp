@@ -43,6 +43,8 @@
 		<Unit filename="gallery.cpp" />
 		<Unit filename="gallery.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="mixer.cpp" />
+		<Unit filename="mixer.h" />
 		<Unit filename="mouse_event.cpp" />
 		<Unit filename="mouse_event.h" />
 		<Unit filename="snake_bot.cpp" />

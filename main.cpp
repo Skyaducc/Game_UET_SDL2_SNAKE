@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "tt_font.h"
 #include "mouse_event.h"
+#include "mixer.h"
 
 using namespace std;
 
@@ -24,6 +25,26 @@ Button* buttonMode = nullptr;
 Button* buttonRule = nullptr;
 Button* buttonYes = nullptr;
 Button* buttonNo = nullptr;
+
+Mix_Music* music = nullptr;
+Mix_Chunk* scratch = nullptr;
+Mix_Chunk* high = nullptr;
+Mix_Chunk* medium = nullptr;
+Mix_Chunk* low = nullptr;
+
+void closeMixer()
+{
+    Mix_FreeChunk( scratch );
+	Mix_FreeChunk( high );
+	Mix_FreeChunk( medium );
+	Mix_FreeChunk( low );
+	scratch = nullptr;
+	high = nullptr;
+	medium = nullptr;
+	low = nullptr;
+	Mix_FreeMusic(music);
+	music = nullptr;
+}
 
 int main( int argc, char* argv[])
 {
@@ -43,7 +64,7 @@ int main( int argc, char* argv[])
 //    buttonRule = new Button(170 , 60);
 //    buttonYes = new Button(370 , 180 , 170 , 60);
 //    buttonNo = new Button(370 , 270 , 170 , 60);
-
+//    playMusic(music , scratch , high , medium , low);
     bool quit = false;
     while( !quit )
     {
@@ -71,8 +92,11 @@ int main( int argc, char* argv[])
             renderGamePlay(renderer , game , gallery , textTexture);
             start = end;
         }
-        SDL_Delay(200);
+        SDL_Delay(150);
     }
+
+    closeMixer();
+	Mix_Quit();
     textTexture->free();
     TTF_CloseFont(Font);
     Font = NULL;
