@@ -18,10 +18,20 @@ enum GameStatus
 enum CellType
 {
     CELL_EMPTY = 0,
+    CELL_WALL,
     CELL_SNAKE,
     CELL_BIRD,
-    CELL_WALL,
     CELL_OFF_BOARD
+};
+
+enum MAPS
+{
+    MAP_GENERAL = 0,
+    MAP_FIELD,
+    MAP_VOLCANO,
+    MAP_ICE,
+    MAP_SWAMP,
+    MAP_FOREST
 };
 
 enum GameMode
@@ -42,6 +52,7 @@ class Game
     int numBird;
     queue<Direction> inputQueue;
     Direction currentDirection;
+    MAPS currentMap;
     Position birdPosition;
     int idSnakeBot;
     vector<Position> traceSnakeBot;
@@ -74,6 +85,7 @@ public:
     void addBird();
     void addBigBird();
     void addWall();
+    void addMap();
     void setCellType(Position pos, CellType cellType);
 
     void runSnakeBot();

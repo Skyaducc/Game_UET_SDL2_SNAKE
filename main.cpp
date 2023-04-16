@@ -21,30 +21,13 @@ int playerSelect;
 Gallery* gallery = nullptr;
 Text* textTexture = nullptr;
 Button* buttonPlay = nullptr;
-Button* buttonMode = nullptr;
-Button* buttonRule = nullptr;
-Button* buttonYes = nullptr;
-Button* buttonNo = nullptr;
+Button* buttonExit = nullptr;
 
 Mix_Music* music = nullptr;
 Mix_Chunk* scratch = nullptr;
+Mix_Chunk* low = nullptr;
 Mix_Chunk* high = nullptr;
 Mix_Chunk* medium = nullptr;
-Mix_Chunk* low = nullptr;
-
-void closeMixer()
-{
-    Mix_FreeChunk( scratch );
-	Mix_FreeChunk( high );
-	Mix_FreeChunk( medium );
-	Mix_FreeChunk( low );
-	scratch = nullptr;
-	high = nullptr;
-	medium = nullptr;
-	low = nullptr;
-	Mix_FreeMusic(music);
-	music = nullptr;
-}
 
 int main( int argc, char* argv[])
 {
@@ -59,12 +42,10 @@ int main( int argc, char* argv[])
     drawIntroBackground(renderer , gallery , textTexture);
     Game game(BOARD_WIDTH , BOARD_HEIGHT);
 
-    buttonPlay = new Button(370 , 180 , 170 , 60);
-//    buttonMode = new Button(170 , 60);
-//    buttonRule = new Button(170 , 60);
-//    buttonYes = new Button(370 , 180 , 170 , 60);
-//    buttonNo = new Button(370 , 270 , 170 , 60);
+    buttonPlay = new Button(455 , 110 , 214 , 57);
+    buttonExit = new Button(760 , 360 , 135 , 55);
 //    playMusic(music , scratch , high , medium , low);
+
     bool quit = false;
     while( !quit )
     {
@@ -76,6 +57,12 @@ int main( int argc, char* argv[])
             }
             buttonPlay->handleEvent(&e);
             if(buttonPlay->checkMoveDown()) quit = true;
+            buttonExit->handleEvent(&e);
+            if(buttonExit->checkMoveDown())
+            {
+                quit = true;
+                SDL_Quit();
+            }
         }
     }
 
@@ -92,11 +79,8 @@ int main( int argc, char* argv[])
             renderGamePlay(renderer , game , gallery , textTexture);
             start = end;
         }
-        SDL_Delay(150);
+        SDL_Delay(200);
     }
-
-    closeMixer();
-	Mix_Quit();
     textTexture->free();
     TTF_CloseFont(Font);
     Font = NULL;

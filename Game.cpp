@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Game.h"
+#include "constants.h"
 
 using namespace std;
 
@@ -11,12 +12,14 @@ Game::Game(int _width , int _height)
     snakeBot(*this , Position(_width - 1 , 0) , _width , _height),
     mode(GAME_MODE_ADVANCE),
     currentDirection(Direction::RIGHT),
+    currentMap(MAPS::MAP_ICE),
     status(GAME_RUNNING),
     score(0) , numBird(0) , idSnakeBot(0),
     traceSnakeBot(_width * _height , Position(0 , 0))
 {
+    addMap();
     snakeMoveTo(Position(0 , _height - 1));
-    addWall();
+//    addWall();
     addBird();
     snakeBot.getPositionsTrace();
     traceSnakeBot = snakeBot.getTraceSnakeBot();
@@ -25,6 +28,19 @@ Game::Game(int _width , int _height)
 Game::~Game()
 {
     //dtor
+}
+
+void Game::addMap()
+{
+    int num = 0;
+    for (int i=0 ; i<height ; i++)
+    {
+        for (int j=0 ; j<width ; j++)
+        {
+            if(mapIce[num] == 1)     hasWall[i][j] = 1;
+            squares[i][j] = (CellType)mapIce[num++];
+        }
+    }
 }
 
 void Game::processUserInput(Direction direction)

@@ -22,18 +22,12 @@ void logSDLError(std::ostream& os, const std::string &msg, bool fatal)
 void initSDL(SDL_Window* &window, SDL_Renderer* &renderer,
 	int screenWidth, int screenHeight, const char* windowTitle)
 {
-    // init SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         logSDLError(std::cout, "SDL_Init", true);
-    // init audio
-    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
-        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
-    }
-     // init text
-    if( TTF_Init() == -1 )
-    {
-        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        // Khởi tạo SDL_mixer không thành công
+        printf("Mix_OpenAudio failed: %s\n", Mix_GetError());
     }
     window = SDL_CreateWindow(windowTitle, SDL_WINDOWPOS_CENTERED,
        SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
@@ -42,6 +36,10 @@ void initSDL(SDL_Window* &window, SDL_Renderer* &renderer,
                                               SDL_RENDERER_PRESENTVSYNC);
     if (renderer == nullptr) logSDLError(std::cout, "CreateRenderer", true);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    if( TTF_Init() == -1 )
+    {
+        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+    }
     SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
 }
 void quitSDL(SDL_Window* window, SDL_Renderer* renderer)
@@ -69,49 +67,49 @@ SDL_Rect getRect(int x , int y , int w , int h)
 
 void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture)
 {
+    // draw intro background
     SDL_RenderCopy(renderer , gallery->getImage(PIC_INTRO_BACKGROUND) , NULL , NULL);
+    // draw play button
+    SDL_Rect frame = getRect(300 , -50 , 500 , 375);
+    SDL_RenderCopy(renderer , gallery->getImage(PIC_BUTTON_PLAY), NULL , &frame);
+    // draw exit button
+    frame = getRect(760 , 305 , 135 , 135);
+    SDL_RenderCopy(renderer , gallery->getImage(PIC_BUTTON_EXIT), NULL , &frame);
 
-    SDL_Rect frame = getRect(370 , 180 , 170 , 60);
-    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
-    textTexture->loadGameFont("PLAY" , 30);
-    textTexture->render(400 , 200);
-
-    frame = getRect(370 , 270 , 170 , 60);
-    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
-    textTexture->loadGameFont("MODE" , 30);
-    textTexture->render(400 , 290);
-
-    frame = getRect(370 , 360 , 170 , 60);
-    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
-    textTexture->loadGameFont("RULE" , 30);
-    textTexture->render(400 , 380);
+//    frame = getRect(370 , 270 , 170 , 60);
+//    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
+//    textTexture->loadGameFont("MAPS" , 30);
+//    textTexture->render(400 , 290);
+//
+//    frame = getRect(370 , 360 , 170 , 60);
+//    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
+//    textTexture->loadGameFont("QUIT" , 30);
+//    textTexture->render(400 , 380);
 
     SDL_RenderPresent(renderer);
 //    waitUntilKeyPressed();
 }
 
-void drawBackground(SDL_Renderer* renderer , SDL_Texture* Texture , Text* textTexture , const Game& game)
+void drawBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , const Game& game , int top , int left)
 {
-    SDL_RenderCopy(renderer , Texture , NULL , NULL);
+    SDL_RenderCopy(renderer , gallery->getImage(PIC_MAP_FIELD) , NULL , NULL);
     textTexture->loadGameFont("YOUR SCORE: " , 13);
     textTexture->render(700 , 5);
     string score_string = to_string(game.getScore());
     textTexture->loadGameFont(score_string , 13);
     textTexture->render(850 , 5);
-}
 
-void drawBackGroundFrame(SDL_Renderer* renderer , SDL_Texture* Texture)
-{
-    SDL_RenderCopy(renderer , Texture , NULL , NULL);
+//    SDL_Rect frame = getRect(left , top , 575 , 410);
+//    SDL_RenderCopy(renderer , gallery->getImage(PIC_BACKGROUND_FIELD) , NULL , &frame);
 }
 
 void drawCell(SDL_Renderer* renderer , int left , int top , Position pos , SDL_Texture* Texture)
 {
     SDL_Rect cell;
-    cell.x = left + pos.x * CELL_SIZE + 5;
-    cell.y = top + pos.y * CELL_SIZE + 5;
-    cell.w = CELL_SIZE - 5;
-    cell.h = CELL_SIZE - 5;
+    cell.x = left + pos.x * CELL_SIZE;
+    cell.y = top + pos.y * CELL_SIZE;
+    cell.w = CELL_SIZE;
+    cell.h = CELL_SIZE;
     SDL_RenderCopy(renderer , Texture , NULL , &cell);
 }
 
@@ -123,10 +121,10 @@ void drawBird(SDL_Renderer* renderer , int left , int top , Position pos , Galle
 void drawBigBird(SDL_Renderer* renderer , int left , int top , Position pos , Gallery* gallery)
 {
     SDL_Rect cell;
-    cell.x = left + pos.x * CELL_SIZE + 5;
-    cell.y = top + pos.y * CELL_SIZE + 5;
-    cell.w = CELL_SIZE * 2 - 5;
-    cell.h = CELL_SIZE * 2 - 5;
+    cell.x = left + pos.x * CELL_SIZE;
+    cell.y = top + pos.y * CELL_SIZE;
+    cell.w = CELL_SIZE * 2;
+    cell.h = CELL_SIZE * 2;
     SDL_RenderCopy(renderer , gallery->getImage(PIC_BIG_BIRD) , NULL , &cell);
 }
 
@@ -152,19 +150,19 @@ void drawHorizontalLine(SDL_Renderer* renderer , int left , int top , int cells)
     SDL_RenderDrawLine(renderer , left , top , left + cells * CELL_SIZE , top);
 }
 
-void drawWall(SDL_Renderer* renderer , SDL_Texture* Texture , const Game &game)
+void drawWall(SDL_Renderer* renderer , SDL_Texture* Texture , const Game &game , int top , int left)
 {
     vector<Position> wallPosition = game.getWallPosition();
     for (Position p : wallPosition)
     {
-        drawCell(renderer , 0 , 0 , p , Texture);
+        drawCell(renderer , left , top , p , Texture);
     }
 }
 
 void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery , Text* textTexture)
 {
 //    cout << "check" << endl;
-    int top = 0 , left = 0;
+    int top = 20 , left = 165;
     SDL_SetRenderDrawColor(renderer , BOARD_COLOR.r , BOARD_COLOR.g , BOARD_COLOR.b , 0);
     SDL_RenderClear(renderer);
 
@@ -172,9 +170,8 @@ void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery
         drawVerticalLine(renderer , left + x * CELL_SIZE , top , BOARD_HEIGHT);
     for (int y=0 ; y<=BOARD_HEIGHT ; y++)
         drawHorizontalLine(renderer , left , top + y * CELL_SIZE , BOARD_WIDTH);
-    drawBackground(renderer , gallery->getImage(PIC_BACKGROUND) , textTexture , game);
-//    drawBackGroundFrame(renderer , gallery->getImage(PIC_BACKGROUND_FRAME));
-    drawWall(renderer , gallery->getImage(PIC_WALL) , game);
+    drawBackground(renderer , gallery , textTexture , game , top , left);
+    drawWall(renderer , gallery->getImage(PIC_WALL) , game , top , left);
 
     vector<Position> vectorBirdPosition = game.getbirdPosition();
     if(vectorBirdPosition.size() == 1) drawBird(renderer , left , top , vectorBirdPosition[0]  , gallery);
@@ -185,39 +182,6 @@ void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery
     SDL_RenderPresent(renderer);
 }
 
-bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* renderer , Gallery* gallery , Text* textTexture)
-{
-//    cout << "isContinuePlay" << endl;
-    SDL_Rect frame = getRect(370 , 180 , 170 , 60);
-    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
-    textTexture->loadGameFont("YES" , 30);
-    textTexture->render(400 , 200);
-
-    frame = getRect(370 , 270 , 170 , 60);
-    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
-    textTexture->loadGameFont("NO" , 30);
-    textTexture->render(400 , 290);
-
-    SDL_RenderPresent(renderer);
-
-    bool quit = false;
-    SDL_Event e;
-    while( !quit )
-    {
-        while( SDL_PollEvent(&e) != 0 )
-        {
-            if( e.type == SDL_QUIT )
-            {
-                quit = true;
-            }
-            buttonYes->handleEvent(&e);
-            buttonNo->handleEvent(&e);
-            if(buttonYes->checkMoveDown()) return true;
-            else if(buttonNo->checkMoveDown()) return false;
-        }
-    }
-
-}
 
 void interpretEvent(SDL_Event e, Game& game)
 {
