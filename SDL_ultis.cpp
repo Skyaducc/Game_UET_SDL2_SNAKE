@@ -128,12 +128,24 @@ void drawBigBird(SDL_Renderer* renderer , int left , int top , Position pos , Ga
     SDL_RenderCopy(renderer , gallery->getImage(PIC_BIG_BIRD) , NULL , &cell);
 }
 
-void drawSnake(SDL_Renderer* renderer , int left , int top , vector<Position> pos , Gallery* gallery)
+void drawSnake(SDL_Renderer* renderer , int left , int top , vector<Position> pos , Gallery* gallery , int currentDirection , bool isSnakeBot)
 {
-    drawCell(renderer , left , top , pos[pos.size() - 1] , gallery->getImage(PIC_SNAKE_HEAD));
+    SDL_Rect cell;
+    cell.x = left + pos[pos.size()-1].x * CELL_SIZE;
+    cell.y = top + pos[pos.size()-1].y * CELL_SIZE;
+    cell.w = CELL_SIZE;
+    cell.h = CELL_SIZE;
+    double angle = 0;
+    if(currentDirection == 0)   angle = -90;
+    else if(currentDirection == 1)   angle = 90;
+    else if(currentDirection == 2)  angle = 180;
+    SDL_RenderCopyEx(renderer , gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_HEAD_FIELD : PIC_SNAKE_HEAD_FIELD) , NULL , &cell , angle , NULL , SDL_FLIP_NONE);
     for(int i=pos.size() - 2 ; i>=0 ; i--)
     {
-        SDL_Texture* texture = gallery->getImage(pos[i].y == pos[i+1].y ? PIC_SNAKE_HORIZONTAL : PIC_SNAKE_VERTICAL);
+        SDL_Texture* texture = nullptr;
+        if(pos[i].y == pos[i+1].y)
+            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_HORIZONTAL_FIELD : PIC_SNAKE_HORIZONTAL_FIELD);
+        else texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_VERTICAL_FIELD : PIC_SNAKE_VERTICAL_FIELD);
         drawCell(renderer , left , top , pos[i] , texture);
     }
 }
@@ -161,7 +173,7 @@ void drawWall(SDL_Renderer* renderer , SDL_Texture* Texture , const Game &game ,
 
 void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery , Text* textTexture)
 {
-//    cout << "check" << endl;
+//    cout << "renderGamePlay" << endl;
     int top = 20 , left = 165;
     SDL_SetRenderDrawColor(renderer , BOARD_COLOR.r , BOARD_COLOR.g , BOARD_COLOR.b , 0);
     SDL_RenderClear(renderer);
@@ -176,8 +188,11 @@ void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery
     vector<Position> vectorBirdPosition = game.getbirdPosition();
     if(vectorBirdPosition.size() == 1) drawBird(renderer , left , top , vectorBirdPosition[0]  , gallery);
     else drawBigBird(renderer , left , top , vectorBirdPosition[0]  , gallery);
-    drawSnake(renderer , left , top , game.getSnakePositions() , gallery);
-    drawSnake(renderer , left , top , game.getSnakeBotPositions() , gallery);
+
+    int currentDirection = (int)game.getDirection();
+    drawSnake(renderer , left , top , game.getSnakePositions() , gallery , currentDirection , 0);
+    int currentDirectionSnakeBot = (int)game.getDirectionBot();
+    drawSnake(renderer , left , top , game.getSnakeBotPositions() , gallery , currentDirectionSnakeBot , 1);
 
     SDL_RenderPresent(renderer);
 }

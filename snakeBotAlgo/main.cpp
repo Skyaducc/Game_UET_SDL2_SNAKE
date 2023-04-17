@@ -8,41 +8,10 @@
 #define debug(x) cout << x << endl; 
 using namespace std;
 int height , width , sta , fns;
-int dx[] = {0 , 0 , -1 , 1};
-int dy[] = {-1 , 1 , 0 , 0};
-vector<int> adj[1000];
-int dist[1001] , trace[1001];
-vector<pair<int , int> > res;
-pair<int , int> getPair[1001];
-bool Inside(int x , int y)
-{
-	return 0 <= x && 0 <= y && x < width && y < height;
-}
-int Get(int x , int y)
-{
-	return width * y + x;
-}
-void bfs(int sta)
-{
-	queue<int> qu;
-	qu.push(sta);
-	for (int i=0 ; i<width * height ; i++)	dist[i] = 1e9;
-	dist[sta] = 0;
-	while(qu.size())
-	{
-		int u = qu.front();
-		qu.pop();
-		for (int v : adj[u])
-		{
-			if(dist[v] > dist[u] + 1)
-			{
-				dist[v] = dist[u] + 1;
-				trace[v] = u;
-				qu.push(v);
-			}
-		}
-	}
-}
+
+
+
+
 void getTrace(int v)
 {
 	if(v == sta)	return;

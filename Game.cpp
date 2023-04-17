@@ -10,12 +10,12 @@ Game::Game(int _width , int _height)
     hasWall(_height , vector<bool>(_width , false)),
     snake(*this , Position(0 , _height - 1)),
     snakeBot(*this , Position(_width - 1 , 0) , _width , _height),
-    mode(GAME_MODE_ADVANCE),
     currentDirection(Direction::RIGHT),
     currentMap(MAPS::MAP_ICE),
     status(GAME_RUNNING),
     score(0) , numBird(0) , idSnakeBot(0),
-    traceSnakeBot(_width * _height , Position(0 , 0))
+    traceSnakeBot(_width * _height , Position(0 , 0)),
+    directionSnakeBot(_width * _height , LEFT)
 {
     addMap();
     snakeMoveTo(Position(0 , _height - 1));
@@ -23,6 +23,7 @@ Game::Game(int _width , int _height)
     addBird();
     snakeBot.getPositionsTrace();
     traceSnakeBot = snakeBot.getTraceSnakeBot();
+    directionSnakeBot = snakeBot.getDirectionSnakeBot();
 }
 
 Game::~Game()
@@ -37,8 +38,8 @@ void Game::addMap()
     {
         for (int j=0 ; j<width ; j++)
         {
-            if(mapIce[num] == 1)     hasWall[i][j] = 1;
-            squares[i][j] = (CellType)mapIce[num++];
+            if(mapField[num] == 1)     hasWall[i][j] = 1;
+            squares[i][j] = (CellType)mapField[num++];
         }
     }
 }
@@ -69,24 +70,30 @@ void Game::nextStep()
     }
     snake.move(currentDirection);
 //    cout << traceSnakeBot[idSnakeBot].x << " " << traceSnakeBot[idSnakeBot].y << endl;
+    if(idSnakeBot >= (int)traceSnakeBot.size())
+    {
+        status = GAME_OVER;
+        return;
+    }
     snakeBot.move(traceSnakeBot[idSnakeBot++]);
-    cout << idSnakeBot << " " << traceSnakeBot[idSnakeBot].x << " " << traceSnakeBot[idSnakeBot].y << endl;
+//    cout << idSnakeBot << " " << traceSnakeBot[idSnakeBot].x << " " << traceSnakeBot[idSnakeBot].y << endl;
 }
 
 void Game::snakeMoveTo(Position pos)
 {
-//    cout << "snakeMoveTo: " << width << " " << height << endl;
+    cout << "snakeMoveTo: " << endl;
     switch(getCellType(pos))
     {
         case CELL_OFF_BOARD:
         {
-            if(mode == GAME_MODE_BASIC)
-            {
-                status = GAME_OVER;
-                break;
-            }
+            status = GAME_OVER;
+            break;
         }
-        case CELL_WALL: status = GAME_OVER; break;
+        case CELL_WALL:
+        {
+            cout << "touch wall" << endl;
+            status = GAME_OVER; break;
+        }
         case CELL_SNAKE: status = GAME_OVER; break;
         case CELL_BIRD:
         {
@@ -147,7 +154,9 @@ void Game::resetTraceSnakeBot()
 {
     snakeBot.getPositionsTrace();
     traceSnakeBot.clear();
+    directionSnakeBot.clear();
     traceSnakeBot = snakeBot.getTraceSnakeBot();
+    directionSnakeBot = snakeBot.getDirectionSnakeBot();
     idSnakeBot = 0;
 }
 

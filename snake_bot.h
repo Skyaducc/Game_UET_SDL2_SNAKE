@@ -28,6 +28,7 @@ class SnakeBot
     vector<int> dist;
     vector<int> trace;
     vector<Position> traceSnakeBot;
+    vector<Direction> directionSnakeBot;
     vector<Position> returnPosition;
 public:
     SnakeBot(Game& _game , Position start , int _width , int _height);
@@ -37,6 +38,7 @@ public:
     bool checkPosition(Position pos);
     vector<Position> getPositions() const;
     vector<Position> getTraceSnakeBot() { return traceSnakeBot; }
+    vector<Direction> getDirectionSnakeBot() { return directionSnakeBot; }
     void eatbird();
     void getPositionsTrace();
     void slideTo(Position newPosition);

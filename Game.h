@@ -34,11 +34,6 @@ enum MAPS
     MAP_FOREST
 };
 
-enum GameMode
-{
-    GAME_MODE_BASIC = 0,
-    GAME_MODE_ADVANCE
-};
 
 class Game
 {
@@ -47,7 +42,6 @@ class Game
     Snake snake;
     SnakeBot snakeBot;
     GameStatus status;
-    GameMode mode;
     int score;
     int numBird;
     queue<Direction> inputQueue;
@@ -56,6 +50,7 @@ class Game
     Position birdPosition;
     int idSnakeBot;
     vector<Position> traceSnakeBot;
+    vector<Direction> directionSnakeBot;
 public:
     const int width;
     const int height;
@@ -64,7 +59,6 @@ public:
 
     bool isGameRunning() const { return status  == GAME_RUNNING; }
     bool isGameOver() const { return status == GAME_OVER; }
-    bool isGameModeBasic() const { return mode == GAME_MODE_BASIC; }
     void checkStatus() { cout << "Game status: " << (int)status << endl; }
     void processUserInput(Direction direction);
     void nextStep();
@@ -76,6 +70,7 @@ public:
     vector<Position> getbirdPosition() const;
     vector<Position> getWallPosition() const;
 
+    Direction getDirection() const { return currentDirection; }
     int getScore() const { return score; }
     bool canChange(Direction current , Direction next) const;
 
@@ -91,6 +86,7 @@ public:
     void runSnakeBot();
     bool snakeBotMoveTo(Position pos);
     void resetTraceSnakeBot();
+    Direction getDirectionBot() const { return directionSnakeBot[idSnakeBot]; }
     vector<Position> getSnakeBotPositions() const;
 };
 

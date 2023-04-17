@@ -13,6 +13,7 @@ SnakeBot::SnakeBot(Game& _game , Position start , int _width , int _height)
     dist(_height * _width , 0),
     trace(_height * _width , 0),
     traceSnakeBot(_width * _height , Position(0 , 0)),
+    directionSnakeBot(_width * _height , LEFT),
     returnPosition(_width * _height , Position(0 , 0))
 {
     startPosition = getVertice(start.x , start.y);
@@ -166,10 +167,31 @@ void SnakeBot::getPositionsTrace()
 		}
 	}
 	bfs();
+	if(dist[finishPosition] == 1e9)
+    {
+        cout << "No Trace Snake Bot" << endl;
+        return;
+    }
 	traceSnakeBot.clear();
 	getTrace(finishPosition);
 	reverse(traceSnakeBot.begin() , traceSnakeBot.end());
+    Direction oldDirection = (directionSnakeBot.size()) ? directionSnakeBot.back() : LEFT;
+    directionSnakeBot.clear();
+    directionSnakeBot.push_back(oldDirection);
+	for (int i=1 ; i<(int)traceSnakeBot.size() ; i++)
+    {
+        if(traceSnakeBot[i].x == traceSnakeBot[i-1].x)
+        {
+            if(traceSnakeBot[i].y == traceSnakeBot[i-1].y - 1) directionSnakeBot.push_back(UP);
+            else directionSnakeBot.push_back(DOWN);
+        }
+        else
+        {
+            if(traceSnakeBot[i].x == traceSnakeBot[i-1].x - 1) directionSnakeBot.push_back(LEFT);
+            else directionSnakeBot.push_back(RIGHT);
+        }
+    }
 //	cout << "startPosion & finishPosition" << returnPosition[startPosition].x << " " << returnPosition[startPosition].y << " ";
 //	cout << returnPosition[finishPosition].x << " " << returnPosition[finishPosition].y << endl;
-//    for (auto p : traceSnakeBot)    cout << p.x << " " << p.y << endl;
+//    for (int i=0 ; i<(int)traceSnakeBot.size() ; i++)   cout << traceSnakeBot[i].x << " " << traceSnakeBot[i].y << " " << (int)directionSnakeBot[i] << endl;
 }

@@ -14,29 +14,29 @@ struct Position
 {
     int x , y;
     Position(int _x = 0 , int _y = 0) : x(_x) , y(_y) {}
-    Position move(Direction direction , int width , int height , bool isGameModeBasic) const
+    Position move(Direction direction , int width , int height) const
     {
         switch(direction)
         {
             case UP:
             {
                 int newY = (y == 0) ? height - 1 : y - 1;
-                return Position(x , (isGameModeBasic) ? y - 1 : newY);
+                return Position(x , newY);
             }
             case DOWN:
             {
                 int newY = (y == height - 1) ? 0 : y + 1;
-                return Position(x , (isGameModeBasic) ? y + 1 : newY);
+                return Position(x , newY);
             }
             case LEFT:
             {
                 int newX = (x == 0) ? width - 1 : x - 1;
-                return Position((isGameModeBasic) ? x - 1 : newX , y);
+                return Position(newX , y);
             }
             case RIGHT:
             {
                 int newX = (x == width - 1) ? 0 : x + 1;
-                return Position((isGameModeBasic) ? x + 1 : newX , y);
+                return Position(newX , y);
             }
             default: throw std::invalid_argument("Unknown direction");
         }

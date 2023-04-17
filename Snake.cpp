@@ -28,7 +28,7 @@ vector<Position> Snake::getPositions() const
 
 void Snake::growAtFront(Position newPosition)
 {
-    head->next = new SnakeNode(newPosition);
+    head->next = new SnakeNode(newPosition , nullptr);
     head = head->next;
 }
 
@@ -56,7 +56,7 @@ void Snake::eatbird()
 
 void Snake::move(Direction direction)
 {
-    Position newPosition = head->position.move(direction , game.width , game.height , game.isGameModeBasic());
+    Position newPosition = head->position.move(direction , game.width , game.height);
 //    cout << "move: " << newPosition.x << " " << newPosition.y << endl;
     game.snakeMoveTo(newPosition);
     if(game.isGameOver())   return;
