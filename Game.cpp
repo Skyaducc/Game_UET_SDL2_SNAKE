@@ -28,7 +28,8 @@ Game::Game(int _width , int _height)
 
 Game::~Game()
 {
-    //dtor
+    snake.~Snake();
+    snakeBot.~SnakeBot();
 }
 
 void Game::addMap()

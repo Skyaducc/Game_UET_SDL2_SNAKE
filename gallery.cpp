@@ -4,26 +4,33 @@
 
 Gallery::Gallery(SDL_Renderer* renderer_): renderer(renderer_)
 {
+    for (int i=0 ; i<PIC_COUNT ; i++)   pictures[i] = nullptr;
     loadGamePictures();
 }
 Gallery::~Gallery()
 {
     for (SDL_Texture* texture : pictures)
-        SDL_DestroyTexture(texture);
+    {
+        if(texture != nullptr)
+        {
+            SDL_DestroyTexture(texture);
+            texture = nullptr;
+        }
+    }
 }
 
 SDL_Texture* Gallery::loadTexture(std::string path , bool hasColorKey)
 {
-    SDL_Texture* newTexture = NULL;
+    SDL_Texture* newTexture = nullptr;
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-    if( loadedSurface == NULL )
+    if( loadedSurface == nullptr )
         logSDLError(std::cout, "Unable to load image " + path + " SDL_image Error: " + IMG_GetError());
     else
     {
         Uint32 colorkey = SDL_MapRGB(loadedSurface->format , 255 , 255 , 255);
         if(hasColorKey) SDL_SetColorKey( loadedSurface, SDL_TRUE , colorkey );
         newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
-        if( newTexture == NULL )
+        if( newTexture == nullptr )
             logSDLError(std::cout, "Unable to create texture from " + path + " SDL Error: " + SDL_GetError());
         SDL_FreeSurface( loadedSurface );
     }

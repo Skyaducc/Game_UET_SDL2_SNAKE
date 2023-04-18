@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
-#include <SDL.h>
 #include "SDL_ultis.h"
 #include "constants.h"
 #include "gallery.h"
@@ -16,13 +15,6 @@ using namespace std;
 #define CLOCK_NOW chrono::system_clock::now
 typedef chrono::duration<double> ElapsedTime;
 
-int playerSelect;
-
-Gallery* gallery = nullptr;
-Text* textTexture = nullptr;
-Button* buttonPlay = nullptr;
-Button* buttonExit = nullptr;
-
 Mix_Music* music = nullptr;
 Mix_Chunk* scratch = nullptr;
 Mix_Chunk* low = nullptr;
@@ -33,17 +25,16 @@ int main( int argc, char* argv[])
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
-    TTF_Font* Font = NULL;
     SDL_Event e;
     initSDL(window , renderer , SCREEN_WIDTH , SCREEN_HEIGHT , WINDOW_TITLE);
-    gallery = new Gallery(renderer);
-    textTexture = new Text(renderer);
+    Gallery* gallery = new Gallery(renderer);
+    Text* textTexture = new Text(renderer);
 
     drawIntroBackground(renderer , gallery , textTexture);
     Game game(BOARD_WIDTH , BOARD_HEIGHT);
 
-    buttonPlay = new Button(455 , 110 , 214 , 57);
-    buttonExit = new Button(760 , 360 , 135 , 55);
+    Button* buttonPlay = new Button(455 , 110 , 214 , 57);
+    Button* buttonExit = new Button(760 , 360 , 135 , 55);
 //    playMusic(music , scratch , high , medium , low);
 
     bool quit = false;
@@ -68,22 +59,30 @@ int main( int argc, char* argv[])
 
     auto start = CLOCK_NOW();
     renderGamePlay(renderer , game , gallery , textTexture);
-    while(game.isGameRunning())
+    while(true)
     {
-        while(SDL_PollEvent(&e))    interpretEvent(e , game);
-        auto end = CLOCK_NOW();
-        ElapsedTime elapsed = end - start;
-        if(elapsed.count() > STEP_DELAY)
+        while(game.isGameRunning())
         {
-            game.nextStep();
-            renderGamePlay(renderer , game , gallery , textTexture);
-            start = end;
+            while(SDL_PollEvent(&e))    interpretEvent(e , game);
+            auto end = CLOCK_NOW();
+            ElapsedTime elapsed = end - start;
+            if(elapsed.count() > STEP_DELAY)
+            {
+                game.nextStep();
+                renderGamePlay(renderer , game , gallery , textTexture);
+                start = end;
+            }
+            SDL_Delay(200);
         }
-        SDL_Delay(200);
+//        bool checkContinuePlay = isContinuePlay();
+//        if(checkContinuePlay)
+//        {
+//            Game game(BOARD_WIDTH , BOARD_HEIGHT);
+//        }
+//        else break;
+        break;
     }
     textTexture->free();
-    TTF_CloseFont(Font);
-    Font = NULL;
     TTF_Quit();
     delete textTexture;
     delete gallery;
