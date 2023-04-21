@@ -31,10 +31,11 @@ int main( int argc, char* argv[])
     Text* textTexture = new Text(renderer);
 
     drawIntroBackground(renderer , gallery , textTexture);
-    Game game(BOARD_WIDTH , BOARD_HEIGHT);
 
     Button* buttonPlay = new Button(455 , 110 , 214 , 57);
     Button* buttonExit = new Button(760 , 360 , 135 , 55);
+    Button* buttonYes = new Button(370 , 210 , 40 , 10);
+    Button* buttonNo = new Button(530 , 210 , 25 , 15);
 //    playMusic(music , scratch , high , medium , low);
 
     bool quit = false;
@@ -57,10 +58,11 @@ int main( int argc, char* argv[])
         }
     }
 
-    auto start = CLOCK_NOW();
-    renderGamePlay(renderer , game , gallery , textTexture);
     while(true)
     {
+        Game game(BOARD_WIDTH , BOARD_HEIGHT);
+        auto start = CLOCK_NOW();
+        renderGamePlay(renderer , game , gallery , textTexture);
         while(game.isGameRunning())
         {
             while(SDL_PollEvent(&e))    interpretEvent(e , game);
@@ -74,13 +76,16 @@ int main( int argc, char* argv[])
             }
             SDL_Delay(200);
         }
-//        bool checkContinuePlay = isContinuePlay();
-//        if(checkContinuePlay)
-//        {
-//            Game game(BOARD_WIDTH , BOARD_HEIGHT);
-//        }
-//        else break;
-        break;
+        bool checkContinuePlay = isContinuePlay(buttonYes , buttonNo , renderer , gallery , textTexture);
+        if(checkContinuePlay)
+        {
+//            game.playGameAgain();
+            start = CLOCK_NOW();
+            renderGamePlay(renderer , game , gallery , textTexture);
+        }
+        else break;
+        cout << "out of loop" << endl;
+        game.checkStatus();
     }
     textTexture->free();
     TTF_Quit();

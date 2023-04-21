@@ -197,6 +197,44 @@ void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery
     SDL_RenderPresent(renderer);
 }
 
+bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* renderer , Gallery* gallery , Text* textTexture)
+{
+    cout << "isContinuePlay" << endl;
+    bool quit = false;
+    SDL_Event e;
+    textTexture->loadGameFont("GAME OVER" , 40);
+    textTexture->render(310 , 130);
+    textTexture->loadGameFont("Play Continue?" , 15);
+    textTexture->render(370 , 180);
+    textTexture->loadGameFont("YES" , 15);
+    textTexture->render(370 , 210);
+    textTexture->loadGameFont("NO" , 15);
+    textTexture->render(530 , 210);
+    SDL_RenderPresent(renderer);
+    while( !quit )
+    {
+        while( SDL_PollEvent(&e) != 0 )
+        {
+            if( e.type == SDL_QUIT )
+            {
+                quit = true;
+            }
+            buttonYes->handleEvent(&e);
+            if(buttonYes->checkMoveDown())
+            {
+                return true;
+            }
+            buttonNo->handleEvent(&e);
+            if(buttonNo->checkMoveDown())
+            {
+
+                return false;
+
+            }
+        }
+    }
+    return false;
+}
 
 void interpretEvent(SDL_Event e, Game& game)
 {

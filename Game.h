@@ -56,6 +56,7 @@ public:
     const int height;
     Game(int _width , int _height);
     ~Game();
+    void playGameAgain();
 
     bool isGameRunning() const { return status  == GAME_RUNNING; }
     bool isGameOver() const { return status == GAME_OVER; }

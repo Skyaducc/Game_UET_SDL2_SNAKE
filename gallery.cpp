@@ -42,13 +42,13 @@ void Gallery::loadGamePictures()
     pictures[PIC_INTRO_BACKGROUND] = loadTexture("intro_background.png" , 0);
     pictures[PIC_BIRD] = loadTexture("bird.png" , 0);
     pictures[PIC_BIG_BIRD] = loadTexture("bigBird.png" , 0);
-    pictures[PIC_WALL] = loadTexture("wall.jpg" , 0);
 
     pictures[PIC_BUTTON_EXIT] = loadTexture("button_exit.png" , 0);
     pictures[PIC_BUTTON_PLAY] = loadTexture("button_play.png" , 0);
 
 
     pictures[PIC_MAP_FIELD] = loadTexture("field_world/map_field.png" , 0);
+    pictures[PIC_WALL] = loadTexture("field_world/wall.png" , 0);
     pictures[PIC_SNAKE_VERTICAL_FIELD] = loadTexture("field_world/vertical_snake.png" , 1);
     pictures[PIC_SNAKE_HORIZONTAL_FIELD] = loadTexture("field_world/horizontal_snake.png" , 1);
     pictures[PIC_SNAKE_HEAD_FIELD] = loadTexture("field_world/head_snake.png" , 1);
@@ -60,4 +60,5 @@ void Gallery::loadGamePictures()
     pictures[PIC_MAP_VOLCANO] = loadTexture("map_picture/map_volcano.png" , 0);
     pictures[PIC_MAP_FOREST] = loadTexture("map_picture/map_forest.png" , 0);
     pictures[PIC_MAP_SWAMP] = loadTexture("map_picture/map_swamp.png" , 0);
+
 }

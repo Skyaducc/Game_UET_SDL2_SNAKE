@@ -16,11 +16,13 @@ SnakeBot::SnakeBot(Game& _game , Position start , int _width , int _height)
     directionSnakeBot(_width * _height , LEFT),
     returnPosition(_width * _height , Position(0 , 0))
 {
+    cout << "SnakeBot" << endl;
     startPosition = getVertice(start.x , start.y);
 }
 
 SnakeBot::~SnakeBot()
 {
+    cout << "~ snake bot" << endl;
     for (SnakeBotNode* p = tail ; p != nullptr;)
     {
         SnakeBotNode* nextNode = p->next;
@@ -31,6 +33,7 @@ SnakeBot::~SnakeBot()
 
 vector<Position> SnakeBot::getPositions() const
 {
+    cout << "Snakebot getPositions" << endl;
     vector<Position> res;
     for(SnakeBotNode* p = tail ; p != nullptr; p = p -> next)
         res.push_back(p->position);
@@ -39,12 +42,14 @@ vector<Position> SnakeBot::getPositions() const
 
 void SnakeBot::growAtFront(Position newPosition)
 {
+    cout << "SnakeBot growAtFront" << endl;
     head->next = new SnakeBotNode(newPosition);
     head = head->next;
 }
 
 void SnakeBot::slideTo(Position newPosition)
 {
+    cout << "SnakeBot slideTo" << endl;
     if(tail->next == nullptr)
         tail->position = newPosition;
     else
@@ -62,12 +67,13 @@ void SnakeBot::slideTo(Position newPosition)
 
 void SnakeBot::eatbird()
 {
+    cout << "SnakeBot eatbird" << endl;
     bird++;
 }
 
 void SnakeBot::move(Position newPosition)
 {
-//    cout << "move: " << newPosition.x << " " << newPosition.y << endl;
+    cout << "SnakeBot move" << endl;
     bool checkIsCellBird = game.snakeBotMoveTo(newPosition);
     if(game.isGameOver())   return;
 
@@ -85,17 +91,19 @@ void SnakeBot::move(Position newPosition)
 }
 int SnakeBot::getVertice(int x , int y)
 {
+//    cout << "SnakeBot getVertice" << endl;
 	return game.width * y + x;
 }
 
 bool SnakeBot::checkInside(int x , int y)
 {
+//    cout << "SnakeBot checkInside" << endl;
 	return 0 <= x && 0 <= y && x < game.width && y < game.height;
 }
-int cnt = 0;
+
 void SnakeBot::getTrace(int v)
 {
-    cnt++;
+//    cout << "SnakeBotgetTrace" << endl;
 	if(v == startPosition)	return;
 	traceSnakeBot.push_back(returnPosition[v]);
 	int u = trace[v];
@@ -104,6 +112,7 @@ void SnakeBot::getTrace(int v)
 
 void SnakeBot::bfs()
 {
+    cout << "SnakeBot bfs" << endl;
 	queue<int> qu;
 	qu.push(startPosition);
 	for (int i=0 ; i<game.width * game.height ; i++)	dist[i] = trace[i] = 1e9;
@@ -126,7 +135,7 @@ void SnakeBot::bfs()
 
 void SnakeBot::getPositionsTrace()
 {
-    cout << "getPositionsTrace" << endl;
+    cout << "SnakeBot getPositionsTrace" << endl;
     SnakeBotNode* p = head;
     startPosition = getVertice(p->position.x , p->position.y);
 //    cout << p->position.x << " " << p->position.y << endl;

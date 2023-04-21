@@ -5,11 +5,13 @@
 Snake::Snake(Game& _game , Position start)
     : head(new SnakeNode(start)) , tail(head) , game(_game) , bird(0)
 {
+    cout << "Snake" << endl;
     game.snakeMoveTo(start);
 }
 
 Snake::~Snake()
 {
+    cout << "~ snake" << endl;
     for (SnakeNode* p = tail ; p != nullptr;)
     {
         SnakeNode* nextNode = p->next;
@@ -20,6 +22,7 @@ Snake::~Snake()
 
 vector<Position> Snake::getPositions() const
 {
+    cout << "getPositions" << endl;
     vector<Position> res;
     for(SnakeNode* p = tail ; p != nullptr; p = p -> next)
         res.push_back(p->position);
@@ -28,12 +31,14 @@ vector<Position> Snake::getPositions() const
 
 void Snake::growAtFront(Position newPosition)
 {
+    cout << "growAtFront" << endl;
     head->next = new SnakeNode(newPosition , nullptr);
     head = head->next;
 }
 
 void Snake::slideTo(Position newPosition)
 {
+    cout << "slideTo" << endl;
     if(tail->next == nullptr)
         tail->position = newPosition;
     else
@@ -51,13 +56,14 @@ void Snake::slideTo(Position newPosition)
 
 void Snake::eatbird()
 {
+    cout << "eatbird" << endl;
     bird++;
 }
 
 void Snake::move(Direction direction)
 {
+    cout << "move" << endl;
     Position newPosition = head->position.move(direction , game.width , game.height);
-//    cout << "move: " << newPosition.x << " " << newPosition.y << endl;
     game.snakeMoveTo(newPosition);
     if(game.isGameOver())   return;
 
