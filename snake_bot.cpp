@@ -17,6 +17,7 @@ SnakeBot::SnakeBot(Game& _game , Position start , int _width , int _height)
     returnPosition(_width * _height , Position(0 , 0))
 {
     cout << "SnakeBot" << endl;
+//    bird = 2;
     startPosition = getVertice(start.x , start.y);
 }
 
@@ -159,12 +160,12 @@ void SnakeBot::getPositionsTrace()
 		    returnPosition[getVertice(x , y)] = {x , y};
 		    if(squares[y][x] == CELL_BIRD) finishPosition = getVertice(x , y);
 			if(squares[y][x] == CELL_WALL)	continue;
-			if(squares[y][x] == CELL_SNAKE && (x != p->position.x || y != p->position.y)) continue;
+			if(squares[y][x] == CELL_SNAKE_BOT && (x != p->position.x || y != p->position.y)) continue;
 			for (int k=0 ; k<3 ; k++)
 			{
 				int newX = x + dx[k];
 				int newY = y + dy[k];
-				if(checkInside(newX , newY) && (squares[newY][newX] == CELL_BIRD || squares[newY][newX] == CELL_EMPTY))
+				if(checkInside(newX , newY) && (squares[newY][newX] == CELL_BIRD || squares[newY][newX] == CELL_EMPTY || squares[newY][newX] == CELL_SNAKE))
 				{
 //				    cout << x << " " << y << " " << newX << " " << newY << endl;
 					int u = getVertice(x , y);

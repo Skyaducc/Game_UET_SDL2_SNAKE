@@ -20,6 +20,7 @@ enum CellType
     CELL_EMPTY = 0,
     CELL_WALL,
     CELL_SNAKE,
+    CELL_SNAKE_BOT,
     CELL_BIRD,
     CELL_OFF_BOARD
 };

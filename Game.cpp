@@ -20,7 +20,6 @@ Game::Game(int _width , int _height)
 {
     cout << "Game" << endl;
     addMap();
-    snakeMoveTo(Position(0 , _height - 1));
 //    addWall();
     addBird();
     snakeBot.getPositionsTrace();
@@ -135,6 +134,11 @@ void Game::snakeMoveTo(Position pos)
             cout << "CELL_SNAKE" << endl;
             status = GAME_OVER; break;
         }
+        case CELL_SNAKE_BOT:
+        {
+            cout << "CELL_SNAKE_BOT" << endl;
+            status = GAME_OVER; break;
+        }
         case CELL_BIRD:
         {
             for (int i=-1 ; i<=1 ; i++)
@@ -186,7 +190,7 @@ bool Game::snakeBotMoveTo(Position pos)
             numBird++;
             checkIsCellBird = true;
         }
-        default: setCellType(pos , CELL_SNAKE);
+        default: setCellType(pos , CELL_SNAKE_BOT);
     }
     return checkIsCellBird;
 }

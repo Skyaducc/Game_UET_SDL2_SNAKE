@@ -6,7 +6,7 @@ Snake::Snake(Game& _game , Position start)
     : head(new SnakeNode(start)) , tail(head) , game(_game) , bird(0)
 {
     cout << "Snake" << endl;
-    game.snakeMoveTo(start);
+//    bird = 2;
 }
 
 Snake::~Snake()

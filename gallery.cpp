@@ -60,5 +60,6 @@ void Gallery::loadGamePictures()
     pictures[PIC_MAP_VOLCANO] = loadTexture("map_picture/map_volcano.png" , 0);
     pictures[PIC_MAP_FOREST] = loadTexture("map_picture/map_forest.png" , 0);
     pictures[PIC_MAP_SWAMP] = loadTexture("map_picture/map_swamp.png" , 0);
+    pictures[PIC_WOOD_FRAME] = loadTexture("wood_frame.png" , 1);
 
 }

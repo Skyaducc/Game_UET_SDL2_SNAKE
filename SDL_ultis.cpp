@@ -93,8 +93,6 @@ void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textT
 void drawBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , const Game& game , int top , int left)
 {
     SDL_RenderCopy(renderer , gallery->getImage(PIC_MAP_FIELD) , NULL , NULL);
-    textTexture->loadGameFont("YOUR SCORE: " , 13);
-    textTexture->render(700 , 5);
     string score_string = to_string(game.getScore());
     textTexture->loadGameFont(score_string , 13);
     textTexture->render(850 , 5);
@@ -202,14 +200,16 @@ bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* rendere
     cout << "isContinuePlay" << endl;
     bool quit = false;
     SDL_Event e;
+    SDL_Rect frame = getRect(270 , 50, 420 , 294);
+    SDL_RenderCopy(renderer , gallery->getImage(PIC_WOOD_FRAME) , NULL , &frame);
     textTexture->loadGameFont("GAME OVER" , 40);
     textTexture->render(310 , 130);
-    textTexture->loadGameFont("Play Continue?" , 15);
-    textTexture->render(370 , 180);
-    textTexture->loadGameFont("YES" , 15);
-    textTexture->render(370 , 210);
-    textTexture->loadGameFont("NO" , 15);
-    textTexture->render(530 , 210);
+    textTexture->loadGameFont("Play Continue?" , 20);
+    textTexture->render(350 , 200);
+    textTexture->loadGameFont("YES" , 20);
+    textTexture->render(350 , 250);
+    textTexture->loadGameFont("NO" , 20);
+    textTexture->render(585 , 250);
     SDL_RenderPresent(renderer);
     while( !quit )
     {

@@ -34,8 +34,8 @@ int main( int argc, char* argv[])
 
     Button* buttonPlay = new Button(455 , 110 , 214 , 57);
     Button* buttonExit = new Button(760 , 360 , 135 , 55);
-    Button* buttonYes = new Button(370 , 210 , 40 , 10);
-    Button* buttonNo = new Button(530 , 210 , 25 , 15);
+    Button* buttonYes = new Button(350 , 250 , 50 , 20);
+    Button* buttonNo = new Button(585 , 250 , 35 , 15);
 //    playMusic(music , scratch , high , medium , low);
 
     bool quit = false;
@@ -57,7 +57,6 @@ int main( int argc, char* argv[])
             }
         }
     }
-
     while(true)
     {
         Game game(BOARD_WIDTH , BOARD_HEIGHT);

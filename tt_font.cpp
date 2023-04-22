@@ -72,7 +72,7 @@ void Text::loadGameFont(string s , int size)
 	}
 	else
     {
-        SDL_Color textColor = {0 , 0 , 255};
+        SDL_Color textColor = {128 , 0 , 128};
         if(!loadFromRenderedText(s , textColor))
         {
             printf( "Failed to render text texture!\n" );
