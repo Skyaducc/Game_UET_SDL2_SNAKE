@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1682146930 source:c:\users\anhduc\desktop\game\main.cpp
+1682642510 source:c:\users\anhduc\desktop\game\main.cpp
 	<iostream>
 	<cstdlib>
 	<ctime>
@@ -32,7 +32,7 @@
 	"Position.h"
 	"Game.h"
 
-1682146122 source:c:\users\anhduc\desktop\game\gallery.cpp
+1682752236 source:c:\users\anhduc\desktop\game\gallery.cpp
 	"SDL_ultis.h"
 	"gallery.h"
 	<SDL_image.h>
@@ -40,13 +40,13 @@
 1681725010 c:\users\anhduc\desktop\game\constants.h
 	<SDL.h>
 
-1682091261 c:\users\anhduc\desktop\game\gallery.h
+1682155024 c:\users\anhduc\desktop\game\gallery.h
 	<SDL.h>
 
 1681702569 c:\users\anhduc\desktop\game\position.h
 	<iostream>
 
-1682149796 source:c:\users\anhduc\desktop\game\snake.cpp
+1682151603 source:c:\users\anhduc\desktop\game\snake.cpp
 	"Snake.h"
 	"Game.h"
 	<iostream>
@@ -58,12 +58,12 @@
 	<vector>
 	<queue>
 
-1682149673 source:c:\users\anhduc\desktop\game\game.cpp
+1682151672 source:c:\users\anhduc\desktop\game\game.cpp
 	<iostream>
 	"Game.h"
 	"constants.h"
 
-1681534177 c:\users\anhduc\desktop\game\snake.h
+1682151603 c:\users\anhduc\desktop\game\snake.h
 	<vector>
 	"Position.h"
 
@@ -82,7 +82,7 @@
 1680002111 c:\users\anhduc\desktop\game\mouse_event.h
 	<SDL.h>
 
-1682136111 source:c:\users\anhduc\desktop\game\snake_bot.cpp
+1682151603 source:c:\users\anhduc\desktop\game\snake_bot.cpp
 	"snake_bot.h"
 	"Game.h"
 	"constants.h"
@@ -90,7 +90,7 @@
 	<iostream>
 	<algorithm>
 
-1681803874 c:\users\anhduc\desktop\game\snake_bot.h
+1682151603 c:\users\anhduc\desktop\game\snake_bot.h
 	<iostream>
 	<vector>
 	"Position.h"

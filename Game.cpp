@@ -156,6 +156,7 @@ void Game::snakeMoveTo(Position pos)
             if(numBird % 5 == 0 && numBird > 0) score += 5;
             else score += 1;
             numBird++;
+            snakeBot.snakeBotRemoveTail();
             resetTraceSnakeBot();
         }
         default: setCellType(pos , CELL_SNAKE);
@@ -189,6 +190,7 @@ bool Game::snakeBotMoveTo(Position pos)
             else score += 1;
             numBird++;
             checkIsCellBird = true;
+            snake.snakeRemoveTail();
         }
         default: setCellType(pos , CELL_SNAKE_BOT);
     }

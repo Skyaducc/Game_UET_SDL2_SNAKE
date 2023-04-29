@@ -41,6 +41,7 @@ public:
     vector<Direction> getDirectionSnakeBot() { return directionSnakeBot; }
     void eatbird();
     void getPositionsTrace();
+    void snakeBotRemoveTail();
     void slideTo(Position newPosition);
     void growAtFront(Position newPosition);
     int getVertice(int x , int y);

@@ -6,7 +6,7 @@ Snake::Snake(Game& _game , Position start)
     : head(new SnakeNode(start)) , tail(head) , game(_game) , bird(0)
 {
     cout << "Snake" << endl;
-//    bird = 2;
+    bird = 3;
 }
 
 Snake::~Snake()
@@ -34,6 +34,12 @@ void Snake::growAtFront(Position newPosition)
     cout << "growAtFront" << endl;
     head->next = new SnakeNode(newPosition , nullptr);
     head = head->next;
+}
+
+void Snake::snakeRemoveTail()
+{
+    game.snakeLeave(tail->position);
+    tail = tail->next;
 }
 
 void Snake::slideTo(Position newPosition)

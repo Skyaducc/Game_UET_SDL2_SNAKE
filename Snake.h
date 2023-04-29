@@ -29,7 +29,7 @@ public:
     bool checkPosition(Position pos);
     vector<Position> getPositions() const;
     void eatbird();
-private:
+    void snakeRemoveTail();
     void slideTo(Position newPosition);
     void growAtFront(Position newPosition);
 };

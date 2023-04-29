@@ -1,0 +1,4 @@
+To-do
+1) thêm chữ O và S full ở thanh trạng thái                                                 x
+2) thêm chữ b,o,n,u,s empty 
+3) cắt hình trái tim empty và full

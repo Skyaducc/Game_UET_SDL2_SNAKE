@@ -46,7 +46,6 @@ void Gallery::loadGamePictures()
     pictures[PIC_BUTTON_EXIT] = loadTexture("button_exit.png" , 0);
     pictures[PIC_BUTTON_PLAY] = loadTexture("button_play.png" , 0);
 
-
     pictures[PIC_MAP_FIELD] = loadTexture("field_world/map_field.png" , 0);
     pictures[PIC_WALL] = loadTexture("field_world/wall.png" , 0);
     pictures[PIC_SNAKE_VERTICAL_FIELD] = loadTexture("field_world/vertical_snake.png" , 1);

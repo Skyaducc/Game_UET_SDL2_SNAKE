@@ -17,7 +17,7 @@ SnakeBot::SnakeBot(Game& _game , Position start , int _width , int _height)
     returnPosition(_width * _height , Position(0 , 0))
 {
     cout << "SnakeBot" << endl;
-//    bird = 2;
+    bird = 3;
     startPosition = getVertice(start.x , start.y);
 }
 
@@ -46,6 +46,12 @@ void SnakeBot::growAtFront(Position newPosition)
     cout << "SnakeBot growAtFront" << endl;
     head->next = new SnakeBotNode(newPosition);
     head = head->next;
+}
+
+void SnakeBot::snakeBotRemoveTail()
+{
+    game.snakeLeave(tail->position);
+    tail = tail->next;
 }
 
 void SnakeBot::slideTo(Position newPosition)

@@ -37,7 +37,7 @@ int main( int argc, char* argv[])
     Button* buttonYes = new Button(350 , 250 , 50 , 20);
     Button* buttonNo = new Button(585 , 250 , 35 , 15);
 //    playMusic(music , scratch , high , medium , low);
-
+    bool exit = false;
     bool quit = false;
     while( !quit )
     {
@@ -53,10 +53,12 @@ int main( int argc, char* argv[])
             if(buttonExit->checkMoveDown())
             {
                 quit = true;
+                exit = true;
                 SDL_Quit();
             }
         }
     }
+    if(exit)    return 0;
     while(true)
     {
         Game game(BOARD_WIDTH , BOARD_HEIGHT);
