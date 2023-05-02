@@ -93,12 +93,6 @@ void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textT
 void drawBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , const Game& game , int top , int left)
 {
     SDL_RenderCopy(renderer , gallery->getImage(PIC_MAP_FIELD) , NULL , NULL);
-    string score_string = to_string(game.getScore());
-    textTexture->loadGameFont(score_string , 13);
-    textTexture->render(850 , 5);
-
-//    SDL_Rect frame = getRect(left , top , 575 , 410);
-//    SDL_RenderCopy(renderer , gallery->getImage(PIC_BACKGROUND_FIELD) , NULL , &frame);
 }
 
 void drawCell(SDL_Renderer* renderer , int left , int top , Position pos , SDL_Texture* Texture)
@@ -128,6 +122,7 @@ void drawBigBird(SDL_Renderer* renderer , int left , int top , Position pos , Ga
 
 void drawSnake(SDL_Renderer* renderer , int left , int top , vector<Position> pos , Gallery* gallery , int currentDirection , bool isSnakeBot)
 {
+    cout << "drawSnake" << endl;
     SDL_Rect cell;
     cell.x = left + pos[pos.size()-1].x * CELL_SIZE;
     cell.y = top + pos[pos.size()-1].y * CELL_SIZE;
@@ -148,18 +143,6 @@ void drawSnake(SDL_Renderer* renderer , int left , int top , vector<Position> po
     }
 }
 
-void drawVerticalLine(SDL_Renderer* renderer , int left , int top , int cells)
-{
-    SDL_SetRenderDrawColor(renderer , LINE_COLOR.r , LINE_COLOR.g , LINE_COLOR.b , 0);
-    SDL_RenderDrawLine(renderer , left , top , left , top + cells * CELL_SIZE);
-}
-
-void drawHorizontalLine(SDL_Renderer* renderer , int left , int top , int cells)
-{
-    SDL_SetRenderDrawColor(renderer , LINE_COLOR.r , LINE_COLOR.g , LINE_COLOR.b , 0);
-    SDL_RenderDrawLine(renderer , left , top , left + cells * CELL_SIZE , top);
-}
-
 void drawWall(SDL_Renderer* renderer , SDL_Texture* Texture , const Game &game , int top , int left)
 {
     vector<Position> wallPosition = game.getWallPosition();
@@ -169,19 +152,53 @@ void drawWall(SDL_Renderer* renderer , SDL_Texture* Texture , const Game &game ,
     }
 }
 
+void drawHeart(SDL_Renderer* renderer , Gallery* gallery , int heart , int top , int left)
+{
+    cout << "drawHeart" << endl;
+    if(heart >= 1)
+    {
+        SDL_Rect frame = getRect(280 , 455 , 25 , 25);
+        SDL_RenderCopy(renderer , gallery->getImage(PIC_HEART) , NULL , &frame);
+    }
+    else
+    {
+        SDL_Rect frame = getRect(280 , 455 , 25 , 25);
+        SDL_RenderCopy(renderer , gallery->getImage(PIC_HEART_NULL) , NULL , &frame);
+    }
+    if(heart >= 2)
+    {
+        SDL_Rect frame = getRect(310 , 455 , 25 , 25);
+        SDL_RenderCopy(renderer , gallery->getImage(PIC_HEART) , NULL , &frame);
+    }
+    else
+    {
+        SDL_Rect frame = getRect(310 , 455 , 25 , 25);
+        SDL_RenderCopy(renderer , gallery->getImage(PIC_HEART_NULL) , NULL , &frame);
+    }
+    if(heart >= 3)
+    {
+        cout << "check 3 " << endl;
+        SDL_Rect frame = getRect(340 , 455 , 25 , 25);
+        SDL_RenderCopy(renderer , gallery->getImage(PIC_HEART) , NULL , &frame);
+    }
+    else
+    {
+        SDL_Rect frame = getRect(340 , 455 , 25 , 25);
+        SDL_RenderCopy(renderer , gallery->getImage(PIC_HEART_NULL) , NULL , &frame);
+    }
+}
+
 void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery , Text* textTexture)
 {
-//    cout << "renderGamePlay" << endl;
+    cout << "renderGamePlay" << endl;
     int top = 20 , left = 165;
     SDL_SetRenderDrawColor(renderer , BOARD_COLOR.r , BOARD_COLOR.g , BOARD_COLOR.b , 0);
     SDL_RenderClear(renderer);
 
-    for (int x=0 ; x<=BOARD_WIDTH ; x++)
-        drawVerticalLine(renderer , left + x * CELL_SIZE , top , BOARD_HEIGHT);
-    for (int y=0 ; y<=BOARD_HEIGHT ; y++)
-        drawHorizontalLine(renderer , left , top + y * CELL_SIZE , BOARD_WIDTH);
     drawBackground(renderer , gallery , textTexture , game , top , left);
     drawWall(renderer , gallery->getImage(PIC_WALL) , game , top , left);
+    const int heart = game.getHeart();
+    drawHeart(renderer , gallery , heart , top , left);
 
     vector<Position> vectorBirdPosition = game.getbirdPosition();
     if(vectorBirdPosition.size() == 1) drawBird(renderer , left , top , vectorBirdPosition[0]  , gallery);
@@ -195,15 +212,23 @@ void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery
     SDL_RenderPresent(renderer);
 }
 
-bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* renderer , Gallery* gallery , Text* textTexture)
+bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , bool isGameOver)
 {
     cout << "isContinuePlay" << endl;
     bool quit = false;
     SDL_Event e;
     SDL_Rect frame = getRect(270 , 50, 420 , 294);
     SDL_RenderCopy(renderer , gallery->getImage(PIC_WOOD_FRAME) , NULL , &frame);
-    textTexture->loadGameFont("GAME OVER" , 40);
-    textTexture->render(310 , 130);
+    if(isGameOver)
+    {
+        textTexture->loadGameFont("GAME OVER" , 40);
+        textTexture->render(310 , 130);
+    }
+    else
+    {
+        textTexture->loadGameFont("YOU WIN" , 40);
+        textTexture->render(340 , 130);
+    }
     textTexture->loadGameFont("Play Continue?" , 20);
     textTexture->render(350 , 200);
     textTexture->loadGameFont("YES" , 20);
@@ -219,17 +244,18 @@ bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* rendere
             {
                 quit = true;
             }
-            buttonYes->handleEvent(&e);
-            if(buttonYes->checkMoveDown())
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
             {
-                return true;
-            }
-            buttonNo->handleEvent(&e);
-            if(buttonNo->checkMoveDown())
-            {
-
-                return false;
-
+                buttonYes->handleEvent(&e);
+                if(buttonYes->checkMoveDown())
+                {
+                    return true;
+                }
+                buttonNo->handleEvent(&e);
+                if(buttonNo->checkMoveDown())
+                {
+                    return false;
+                }
             }
         }
     }

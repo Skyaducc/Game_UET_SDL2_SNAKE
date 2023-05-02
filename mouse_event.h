@@ -14,13 +14,14 @@ enum buttonSprite
 
 class Button
 {
+private:
+    buttonSprite currentSprite;
 public:
     int x , y , w , h;
     Button(int _x , int _y , int _w , int _h);
     void setPosition(int x , int y);
     void handleEvent(SDL_Event* e);
     bool checkMoveDown();
-private:
-    buttonSprite currentSprite;
+    int getButtonSprite() { return (int)currentSprite; }
 };
 #endif // MOUSE_EVENT__H

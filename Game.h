@@ -12,7 +12,9 @@ using namespace std;
 enum GameStatus
 {
     GAME_RUNNING,
-    GAME_OVER
+    GAME_OVER,
+    GAME_WIN,
+    GAME_PAUSE
 };
 
 enum CellType
@@ -45,6 +47,7 @@ class Game
     GameStatus status;
     int score;
     int numBird;
+    int heart;
     queue<Direction> inputQueue;
     Direction currentDirection;
     MAPS currentMap;
@@ -61,6 +64,11 @@ public:
 
     bool isGameRunning() const { return status  == GAME_RUNNING; }
     bool isGameOver() const { return status == GAME_OVER; }
+    bool isGamePause() const { return status == GAME_PAUSE; }
+    void setGameOver()  { status = GAME_OVER; }
+    void setGameWin() { status = GAME_WIN; }
+
+    void continuePlay();
     void checkStatus() { cout << "Game status: " << (int)status << endl; }
     void processUserInput(Direction direction);
     void nextStep();
@@ -74,6 +82,7 @@ public:
 
     Direction getDirection() const { return currentDirection; }
     int getScore() const { return score; }
+    int getHeart() const { return heart; }
     bool canChange(Direction current , Direction next) const;
 
     void snakeMoveTo(Position position);

@@ -51,6 +51,11 @@ void SnakeBot::growAtFront(Position newPosition)
 void SnakeBot::snakeBotRemoveTail()
 {
     game.snakeLeave(tail->position);
+    if(tail->next == nullptr)
+    {
+        game.setGameWin();
+        return;
+    }
     tail = tail->next;
 }
 

@@ -36,6 +36,7 @@ int main( int argc, char* argv[])
     Button* buttonExit = new Button(760 , 360 , 135 , 55);
     Button* buttonYes = new Button(350 , 250 , 50 , 20);
     Button* buttonNo = new Button(585 , 250 , 35 , 15);
+    Button* buttonPause = new Button(10 , 10 , 50 , 50);
 //    playMusic(music , scratch , high , medium , low);
     bool exit = false;
     bool quit = false;
@@ -64,20 +65,44 @@ int main( int argc, char* argv[])
         Game game(BOARD_WIDTH , BOARD_HEIGHT);
         auto start = CLOCK_NOW();
         renderGamePlay(renderer , game , gallery , textTexture);
+        bool isPause = false;
         while(game.isGameRunning())
         {
-            while(SDL_PollEvent(&e))    interpretEvent(e , game);
-            auto end = CLOCK_NOW();
-            ElapsedTime elapsed = end - start;
-            if(elapsed.count() > STEP_DELAY)
+            while(SDL_PollEvent(&e))
             {
-                game.nextStep();
-                renderGamePlay(renderer , game , gallery , textTexture);
-                start = end;
+                buttonPause->handleEvent(&e);
+                if(buttonPause->checkMoveDown())   isPause = !isPause;
+                else interpretEvent(e , game);
             }
-            SDL_Delay(200);
+            if(!isPause)
+            {
+                auto end = CLOCK_NOW();
+                ElapsedTime elapsed = end - start;
+                if(elapsed.count() > STEP_DELAY)
+                {
+                    game.nextStep();
+                    renderGamePlay(renderer , game , gallery , textTexture);
+                    start = end;
+                }
+                SDL_Delay(200);
+            }
+            bool isGamePause = game.isGamePause();
+            if(isGamePause)
+            {
+                quit = false;
+                while(!quit)
+                {
+                    while(SDL_PollEvent(&e))
+                    {
+                        interpretEvent(e , game);
+                        if(e.type == SDL_KEYUP) quit = true;
+                    }
+                }
+                game.continuePlay();
+            }
         }
-        bool checkContinuePlay = isContinuePlay(buttonYes , buttonNo , renderer , gallery , textTexture);
+        bool isGameOver = game.isGameOver();
+        bool checkContinuePlay = isContinuePlay(buttonYes , buttonNo , renderer , gallery , textTexture , isGameOver);
         if(checkContinuePlay)
         {
 //            game.playGameAgain();

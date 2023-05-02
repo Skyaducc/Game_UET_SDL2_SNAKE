@@ -11,7 +11,7 @@ Game::Game(int _width , int _height)
     snake(*this , Position(0 , _height - 1)),
     snakeBot(*this , Position(_width - 1 , 0) , _width , _height),
     status(GAME_RUNNING),
-    score(0) , numBird(0),
+    score(0) , numBird(0), heart(3),
     currentDirection(Direction::RIGHT),
     currentMap(MAPS::MAP_ICE),
     idSnakeBot(0),
@@ -48,6 +48,7 @@ void Game::playGameAgain()
     currentMap = MAPS::MAP_ICE;
     status = GAME_RUNNING;
     score = numBird = idSnakeBot = 0;
+    heart = 3;
     traceSnakeBot.clear();
     directionSnakeBot.clear();
 //    snake.~Snake();
@@ -119,28 +120,33 @@ void Game::snakeMoveTo(Position pos)
     cout << "snakeMoveTo" << endl;
     switch(getCellType(pos))
     {
-        case CELL_OFF_BOARD:
-        {
-            status = GAME_OVER;
-            break;
-        }
         case CELL_WALL:
         {
             cout << "CELL_WALL" << endl;
-            status = GAME_OVER; break;
+            if(heart >= 0) heart--;
+            status = (!heart) ? GAME_OVER : GAME_PAUSE;
+//            status = GAME_OVER;
+            break;
         }
         case CELL_SNAKE:
         {
             cout << "CELL_SNAKE" << endl;
-            status = GAME_OVER; break;
+            if(heart >= 0) heart--;
+            status = (!heart) ? GAME_OVER : GAME_PAUSE;
+//            status = GAME_OVER;
+            break;
         }
         case CELL_SNAKE_BOT:
         {
             cout << "CELL_SNAKE_BOT" << endl;
-            status = GAME_OVER; break;
+            if(heart >= 0) heart--;
+            status = (!heart) ? GAME_OVER : GAME_PAUSE;
+//            status = GAME_OVER;
+            break;
         }
         case CELL_BIRD:
         {
+            cout << "CELL_BIRD"  << endl;
             for (int i=-1 ; i<=1 ; i++)
             {
                 for (int j=-1 ; j<=1 ; j++)
@@ -171,6 +177,7 @@ bool Game::snakeBotMoveTo(Position pos)
     {
         case CELL_BIRD:
         {
+            cout << "CELL_BIRD" << endl;
             for (int i=-1 ; i<=1 ; i++)
             {
                 for (int j=-1 ; j<=1 ; j++)
@@ -332,4 +339,10 @@ vector<Position> Game::getSnakeBotPositions() const
 {
     cout << "getSnakeBotPositions" << endl;
     return snakeBot.getPositions();
+}
+
+void Game::continuePlay()
+{
+    cout << "continuePlay" << endl;
+    status = GAME_RUNNING;
 }

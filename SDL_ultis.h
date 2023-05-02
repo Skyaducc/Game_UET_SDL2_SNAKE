@@ -25,7 +25,7 @@ void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textT
 
 void renderGamePlay(SDL_Renderer* , const Game& game , Gallery* gallery , Text* textTexture);
 
-bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* renderer , Gallery* gallery , Text* textTextue);
+bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* renderer , Gallery* gallery , Text* textTextue , bool isGameOver);
 
 void interpretEvent(SDL_Event e, Game& game);
 

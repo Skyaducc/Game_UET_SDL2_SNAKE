@@ -42,6 +42,8 @@ void Gallery::loadGamePictures()
     pictures[PIC_INTRO_BACKGROUND] = loadTexture("intro_background.png" , 0);
     pictures[PIC_BIRD] = loadTexture("bird.png" , 0);
     pictures[PIC_BIG_BIRD] = loadTexture("bigBird.png" , 0);
+    pictures[PIC_HEART] = loadTexture("heart.png" , 1);
+    pictures[PIC_HEART_NULL] = loadTexture("heart_null.png" , 1);
 
     pictures[PIC_BUTTON_EXIT] = loadTexture("button_exit.png" , 0);
     pictures[PIC_BUTTON_PLAY] = loadTexture("button_play.png" , 0);

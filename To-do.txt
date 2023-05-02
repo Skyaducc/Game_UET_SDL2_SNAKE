@@ -1,4 +1,2 @@
 To-do
-1) thêm chữ O và S full ở thanh trạng thái                                                 x
-2) thêm chữ b,o,n,u,s empty 
-3) cắt hình trái tim empty và full
+tại sao khi game over thì rắn dừng lại trước khi chạm tường còn khi game pause rắn lại xuyên qua tường rồi mới dừng

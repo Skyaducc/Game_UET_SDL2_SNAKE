@@ -39,6 +39,11 @@ void Snake::growAtFront(Position newPosition)
 void Snake::snakeRemoveTail()
 {
     game.snakeLeave(tail->position);
+    if(tail->next == nullptr)
+    {
+        game.setGameOver();
+        return;
+    }
     tail = tail->next;
 }
 
@@ -71,7 +76,7 @@ void Snake::move(Direction direction)
     cout << "move" << endl;
     Position newPosition = head->position.move(direction , game.width , game.height);
     game.snakeMoveTo(newPosition);
-    if(game.isGameOver())   return;
+    if(game.isGameOver() || game.isGamePause())   return;
 
     if(bird > 0)
     {
