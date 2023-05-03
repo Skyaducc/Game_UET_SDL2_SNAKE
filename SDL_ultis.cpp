@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <SDL_mixer.h>
+#include "mixer.h"
 #include "SDL_ultis.h"
 #include "constants.h"
 #include "gallery.h"
@@ -188,7 +188,31 @@ void drawHeart(SDL_Renderer* renderer , Gallery* gallery , int heart , int top ,
     }
 }
 
-void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery , Text* textTexture)
+void drawBonus(SDL_Renderer* renderer , Gallery* gallery , const Game& game , int top , int left)
+{
+    map<char , bool> bonus = game.getBonus();
+    PictureID picBonus[] = {PIC_ICON_B , PIC_ICON_O , PIC_ICON_N , PIC_ICON_U , PIC_ICON_S};
+    PictureID picBonusNull[] = {PIC_ICON_NULL_B , PIC_ICON_NULL_O , PIC_ICON_NULL_N , PIC_ICON_NULL_U , PIC_ICON_NULL_S};
+    PictureID pic[] = {PIC_B , PIC_O , PIC_N , PIC_U , PIC_S};
+    SDL_Rect rect[] = {getRect(470 , 443 , 50 , 50),
+                       getRect(500 , 443 , 50 , 50),
+                       getRect(530 , 443 , 50 , 50),
+                       getRect(560 , 443 , 50 , 50),
+                       getRect(590 , 443 , 50 , 50)};
+    for (int i=0 ; i<5 ; i++)
+    {
+        char c = BONUS[i];
+        if(bonus[c])    SDL_RenderCopy(renderer , gallery->getImage(picBonus[i]) , NULL , &rect[i]);
+        else SDL_RenderCopy(renderer , gallery->getImage(picBonusNull[i]) , NULL , &rect[i]);
+    }
+    pair<Position , pair<int , bool>> bonusPosition = game.getBonusPosition();
+    if(bonusPosition.second.second)
+    {
+        drawCell(renderer , left , top , bonusPosition.first , gallery->getImage(pic[bonusPosition.second.first]));
+    }
+}
+
+void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery , Text* textTexture , Uint32 elapsedTimeReal)
 {
     cout << "renderGamePlay" << endl;
     int top = 20 , left = 165;
@@ -199,6 +223,7 @@ void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery
     drawWall(renderer , gallery->getImage(PIC_WALL) , game , top , left);
     const int heart = game.getHeart();
     drawHeart(renderer , gallery , heart , top , left);
+    drawBonus(renderer , gallery , game , top , left);
 
     vector<Position> vectorBirdPosition = game.getbirdPosition();
     if(vectorBirdPosition.size() == 1) drawBird(renderer , left , top , vectorBirdPosition[0]  , gallery);
@@ -268,10 +293,30 @@ void interpretEvent(SDL_Event e, Game& game)
     {
         switch (e.key.keysym.sym)
         {
-        	case SDLK_UP: game.processUserInput(UP); break;
-        	case SDLK_DOWN: game.processUserInput(DOWN); break;
-        	case SDLK_LEFT: game.processUserInput(LEFT); break;
-        	case SDLK_RIGHT: game.processUserInput(RIGHT); break;
+        	case SDLK_UP:
+            {
+                game.processUserInput(UP);
+                loadWAV("sound_and_music/snake_move.wav");
+                break;
+            }
+        	case SDLK_DOWN:
+            {
+                game.processUserInput(DOWN);
+                loadWAV("sound_and_music/snake_move.wav");
+                break;
+            }
+        	case SDLK_LEFT:
+            {
+                game.processUserInput(LEFT);
+                loadWAV("sound_and_music/snake_move.wav");
+                break;
+            }
+        	case SDLK_RIGHT:
+            {
+                game.processUserInput(RIGHT);
+                loadWAV("sound_and_music/snake_move.wav");
+                break;
+            }
         }
     }
 }

@@ -15,12 +15,6 @@ using namespace std;
 #define CLOCK_NOW chrono::system_clock::now
 typedef chrono::duration<double> ElapsedTime;
 
-Mix_Music* music = nullptr;
-Mix_Chunk* scratch = nullptr;
-Mix_Chunk* low = nullptr;
-Mix_Chunk* high = nullptr;
-Mix_Chunk* medium = nullptr;
-
 int main( int argc, char* argv[])
 {
     SDL_Window* window;
@@ -37,11 +31,11 @@ int main( int argc, char* argv[])
     Button* buttonYes = new Button(350 , 250 , 50 , 20);
     Button* buttonNo = new Button(585 , 250 , 35 , 15);
     Button* buttonPause = new Button(10 , 10 , 50 , 50);
-//    playMusic(music , scratch , high , medium , low);
     bool exit = false;
     bool quit = false;
     while( !quit )
     {
+        loadMusic("sound_and_music/intro_sound_track.wav");
         while( SDL_PollEvent(&e) != 0 )
         {
             if( e.type == SDL_QUIT )
@@ -49,23 +43,31 @@ int main( int argc, char* argv[])
                 quit = true;
             }
             buttonPlay->handleEvent(&e);
-            if(buttonPlay->checkMoveDown()) quit = true;
+            if(buttonPlay->checkMoveDown())
+            {
+                loadWAV("sound_and_music/click_button.wav");
+                quit = true;
+            }
             buttonExit->handleEvent(&e);
             if(buttonExit->checkMoveDown())
             {
+                loadWAV("sound_and_music/click_button.wav");
                 quit = true;
                 exit = true;
                 SDL_Quit();
             }
         }
     }
+    Mix_HaltMusic();
     if(exit)    return 0;
     while(true)
     {
         Game game(BOARD_WIDTH , BOARD_HEIGHT);
         auto start = CLOCK_NOW();
-        renderGamePlay(renderer , game , gallery , textTexture);
+//        renderGamePlay(renderer , game , gallery , textTexture , 0);
         bool isPause = false;
+        Uint32 startTime = SDL_GetTicks();
+        loadMusic("sound_and_music/sound_track.wav");
         while(game.isGameRunning())
         {
             while(SDL_PollEvent(&e))
@@ -78,10 +80,12 @@ int main( int argc, char* argv[])
             {
                 auto end = CLOCK_NOW();
                 ElapsedTime elapsed = end - start;
+                Uint32 currentTime = SDL_GetTicks();
+                Uint32 elapsedTimeReal = currentTime - startTime;
                 if(elapsed.count() > STEP_DELAY)
                 {
                     game.nextStep();
-                    renderGamePlay(renderer , game , gallery , textTexture);
+                    renderGamePlay(renderer , game , gallery , textTexture , elapsedTimeReal);
                     start = end;
                 }
                 SDL_Delay(200);
@@ -102,12 +106,13 @@ int main( int argc, char* argv[])
             }
         }
         bool isGameOver = game.isGameOver();
+        if(isGameOver)  loadWAV("sound_and_music/game_over.wav");
+        else loadWAV("sound_and_music/game_win.wav");
         bool checkContinuePlay = isContinuePlay(buttonYes , buttonNo , renderer , gallery , textTexture , isGameOver);
         if(checkContinuePlay)
         {
 //            game.playGameAgain();
             start = CLOCK_NOW();
-            renderGamePlay(renderer , game , gallery , textTexture);
         }
         else break;
         cout << "out of loop" << endl;

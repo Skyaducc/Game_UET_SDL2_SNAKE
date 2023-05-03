@@ -7,8 +7,17 @@
 
 using namespace std;
 
-void loadMusic(string path , Mix_Music* music);
+void loadMusic(string path);
 void loadWAV(string path);
-void playMusic(Mix_Music* music , Mix_Chunk* scratch , Mix_Chunk* high , Mix_Chunk* medium , Mix_Chunk* low);
+
+//void playMusicIntroBackground();
+//void playSoundButton();
+//void playMusic();
+//void playEatBird();
+//void playEatBonus();
+//void playError();
+//void playMove();
+//void playGameOver();
+//void playGameWin();
 
 #endif // MIXER__H

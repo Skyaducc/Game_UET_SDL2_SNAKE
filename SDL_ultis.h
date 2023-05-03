@@ -23,7 +23,7 @@ void waitUntilKeyPressed();
 
 void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture);
 
-void renderGamePlay(SDL_Renderer* , const Game& game , Gallery* gallery , Text* textTexture);
+void renderGamePlay(SDL_Renderer* , const Game& game , Gallery* gallery , Text* textTexture , Uint32 elapsedTimeReal);
 
 bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* renderer , Gallery* gallery , Text* textTextue , bool isGameOver);
 

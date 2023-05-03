@@ -2,80 +2,98 @@
 
 using namespace std;
 
-void playMusic(Mix_Music* music , Mix_Chunk* scratch , Mix_Chunk* high , Mix_Chunk* medium , Mix_Chunk* low)
+void loadMusic(string path)
 {
-    music = Mix_LoadMUS("21_sound_effects_and_music/beat.wav");
-    if( music == nullptr )
-		printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
-    scratch = Mix_LoadWAV("21_sound_effects_and_music/scratch.wav");
-    if( scratch == nullptr)
-        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
-    high = Mix_LoadWAV("21_sound_effects_and_music/high.wav");
-    if( high == nullptr)
-        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
-    medium = Mix_LoadWAV("21_sound_effects_and_music/medium.wav");
-    if( medium == nullptr)
-        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
-    low = Mix_LoadWAV("21_sound_effects_and_music/low.wav");
-    if( low == nullptr)
-        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
-    bool quit = false;
-    SDL_Event e;
-    while( !quit )
-    {
-        while( SDL_PollEvent( &e ) != 0 )
-        {
-            if( e.type == SDL_QUIT )
-            {
-                quit = true;
-            }
-            else if( e.type == SDL_KEYDOWN )
-            {
-                switch( e.key.keysym.sym )
-                {
-                    case SDLK_1:
-                    {
-                        Mix_PlayChannel(-1 , high , 0);
-                        cout << 1 << endl;
-                        break;
-                    }
-                    case SDLK_2:
-                    {
-                        Mix_PlayChannel( -1, medium, 0 );
-                        cout << 2 << endl;
-                        break;
-                    }
-                    case SDLK_3:
-                    {
-                        Mix_PlayChannel( -1, low, 0 );
-                        cout << 3 << endl;
-                        break;
-                    }
-                    case SDLK_4:
-                    {
-                        Mix_PlayChannel( -1, scratch, 0 );
-                        cout << 4 << endl;
-                        break;
-                    }
-                    case SDLK_9:
-                    {
-                        if( Mix_PlayingMusic() == 0 ) Mix_PlayMusic( music , -1 );
-                        else
-                        {
-                            if( Mix_PausedMusic() == 1 )  Mix_ResumeMusic();
-                            else  Mix_PauseMusic();
-                        }
-                        cout << 9 << endl;
-                        break;
-                    }
-                    case SDLK_0:
-                    {
-                        Mix_HaltMusic();
-                        cout << 0 << endl;
-                        break;
-                    }
-                }
-            }
-        }
-    }
+
+    Mix_Music* music = nullptr;
+    music = Mix_LoadMUS(path.c_str());
+    if(music == nullptr)
+        printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+    if( Mix_PlayingMusic() == 0 ) Mix_PlayMusic( music , -1 );
 }
+
+void loadWAV(string path)
+{
+    Mix_Chunk* scratch = nullptr;
+    scratch = Mix_LoadWAV(path.c_str());
+    if(scratch == nullptr)
+        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+    Mix_PlayChannel(-1 , scratch , 0);
+}
+
+//void playMusicIntroBackground()
+//{
+//    Mix_Music* music = nullptr;
+//    music = Mix_LoadMUS("sound_and_music/intro_sound_track.wav");
+//    if(music == nullptr)
+//        printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+//    if( Mix_PlayingMusic() == 0 ) Mix_PlayMusic( music , -1 );
+//    else
+//    {
+//        if( Mix_PausedMusic() == 1 )  Mix_ResumeMusic();
+//        else  Mix_PauseMusic();
+//    }
+//}
+
+//void playSoundButton()
+//{
+//    Mix_Chunk* scratch = nullptr;
+//    scratch = Mix_LoadWAV("sound_and_music/click_button.wav");
+//    if(scratch == nullptr)
+//        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+//    Mix_PlayChannel(-1 , scratch , 0);
+//}
+//
+//void playMusic()
+//{
+//    Mix_Music* music = nullptr;
+//    music = Mix_LoadMUS("sound_and_music/sound_track.wav");
+//    if(music == nullptr)
+//        printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+//    if( Mix_PlayingMusic() == 0 ) Mix_PlayMusic( music , -1 );
+//}
+//
+//void playEatBird()
+//{
+//    Mix_Chunk* scratch = nullptr;
+//    scratch = Mix_LoadWAV("sound_and_music/eat_bird.wav");
+//    if(scratch == nullptr)
+//        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+//    Mix_PlayChannel(-1 , scratch , 0);
+//}
+//
+//void playEatBonus()
+//{
+//    Mix_Chunk* scratch = nullptr;
+//    scratch = Mix_LoadWAV("sound_and_music/eat_bonus.wav");
+//    if(scratch == nullptr)
+//        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+//    Mix_PlayChannel(-1 , scratch , 0);
+//}
+//
+//void playError()
+//{
+//    Mix_Chunk* scratch = nullptr;
+//    scratch = Mix_LoadWAV("sound_and_music/error.wav");
+//    if(scratch == nullptr)
+//        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+//    Mix_PlayChannel(-1 , scratch , 0);
+//}
+//
+//void playMove()
+//{
+//    Mix_Chunk* scratch = nullptr;
+//    scratch = Mix_LoadWAV("sound_and_music/snake_move.wav");
+//    if(scratch == nullptr)
+//        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+//    Mix_PlayChannel(-1 , scratch , 0);
+//}
+//
+//void playGameOver()
+//{
+//    Mix_Chunk* scratch = nullptr;
+//    scratch = Mix_LoadWAV("sound_and_music/snake_move.wav");
+//    if(scratch == nullptr)
+//        printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+//    Mix_PlayChannel(-1 , scratch , 0);
+//}

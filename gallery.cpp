@@ -48,6 +48,22 @@ void Gallery::loadGamePictures()
     pictures[PIC_BUTTON_EXIT] = loadTexture("button_exit.png" , 0);
     pictures[PIC_BUTTON_PLAY] = loadTexture("button_play.png" , 0);
 
+    pictures[PIC_ICON_B] = loadTexture("bonus/icon_B.png" , 1);
+    pictures[PIC_ICON_O] = loadTexture("bonus/icon_O.png" , 1);
+    pictures[PIC_ICON_N] = loadTexture("bonus/icon_N.png" , 1);
+    pictures[PIC_ICON_U] = loadTexture("bonus/icon_U.png" , 1);
+    pictures[PIC_ICON_S] = loadTexture("bonus/icon_S.png" , 1);
+    pictures[PIC_ICON_NULL_B] = loadTexture("bonus/icon_null_B.png" , 1);
+    pictures[PIC_ICON_NULL_O] = loadTexture("bonus/icon_null_O.png" , 1);
+    pictures[PIC_ICON_NULL_N] = loadTexture("bonus/icon_null_N.png" , 1);
+    pictures[PIC_ICON_NULL_U] = loadTexture("bonus/icon_null_U.png" , 1);
+    pictures[PIC_ICON_NULL_S] = loadTexture("bonus/icon_null_S.png" , 1);
+    pictures[PIC_B] = loadTexture("bonus/B.png" , 1);
+    pictures[PIC_O] = loadTexture("bonus/O.png" , 1);
+    pictures[PIC_N] = loadTexture("bonus/N.png" , 1);
+    pictures[PIC_U] = loadTexture("bonus/U.png" , 1);
+    pictures[PIC_S] = loadTexture("bonus/S.png" , 1);
+
     pictures[PIC_MAP_FIELD] = loadTexture("field_world/map_field.png" , 0);
     pictures[PIC_WALL] = loadTexture("field_world/wall.png" , 0);
     pictures[PIC_SNAKE_VERTICAL_FIELD] = loadTexture("field_world/vertical_snake.png" , 1);

@@ -4,8 +4,7 @@
 #include "Position.h"
 #include "snake.h"
 #include "snake_bot.h"
-#include <vector>
-#include <queue>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -24,6 +23,7 @@ enum CellType
     CELL_SNAKE,
     CELL_SNAKE_BOT,
     CELL_BIRD,
+    CELL_B , CELL_O , CELL_N , CELL_U , CELL_S,
     CELL_OFF_BOARD
 };
 
@@ -48,13 +48,18 @@ class Game
     int score;
     int numBird;
     int heart;
+    int countBird;
+    bool hasBonus;
     queue<Direction> inputQueue;
     Direction currentDirection;
     MAPS currentMap;
     Position birdPosition;
+    Position bonusPosition;
+    char currentDigit;
     int idSnakeBot;
     vector<Position> traceSnakeBot;
     vector<Direction> directionSnakeBot;
+    map<char , bool> bonus;
 public:
     const int width;
     const int height;
@@ -79,6 +84,7 @@ public:
     vector<Position> getSnakePositions() const;
     vector<Position> getbirdPosition() const;
     vector<Position> getWallPosition() const;
+    pair<Position , pair<int , bool>> getBonusPosition() const;
 
     Direction getDirection() const { return currentDirection; }
     int getScore() const { return score; }
@@ -92,6 +98,7 @@ public:
     void addBigBird();
     void addWall();
     void addMap();
+    void addBonus();
     void setCellType(Position pos, CellType cellType);
 
     void runSnakeBot();
@@ -99,6 +106,7 @@ public:
     void resetTraceSnakeBot();
     Direction getDirectionBot() const { return directionSnakeBot[idSnakeBot]; }
     vector<Position> getSnakeBotPositions() const;
+    map<char , bool> getBonus() const { return bonus; }
 };
 
 #endif // GAME__H

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1682997648 source:c:\users\anhduc\desktop\game\main.cpp
+1683121609 source:c:\users\anhduc\desktop\game\main.cpp
 	<iostream>
 	<cstdlib>
 	<ctime>
@@ -12,7 +12,7 @@
 	"mouse_event.h"
 	"mixer.h"
 
-1682997648 c:\users\anhduc\desktop\game\sdl_ultis.h
+1683010926 c:\users\anhduc\desktop\game\sdl_ultis.h
 	<iostream>
 	<SDL.h>
 	"constants.h"
@@ -21,49 +21,49 @@
 	"tt_font.h"
 	"mouse_event.h"
 
-1683000105 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
+1683123132 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_ttf.h>
-	<SDL_mixer.h>
+	"mixer.h"
 	"SDL_ultis.h"
 	"constants.h"
 	"gallery.h"
 	"Position.h"
 	"Game.h"
 
-1682993779 source:c:\users\anhduc\desktop\game\gallery.cpp
+1683083995 source:c:\users\anhduc\desktop\game\gallery.cpp
 	"SDL_ultis.h"
 	"gallery.h"
 	<SDL_image.h>
 
-1681725010 c:\users\anhduc\desktop\game\constants.h
+1683016807 c:\users\anhduc\desktop\game\constants.h
 	<SDL.h>
 
-1682993063 c:\users\anhduc\desktop\game\gallery.h
+1683085376 c:\users\anhduc\desktop\game\gallery.h
 	<SDL.h>
 
 1681702569 c:\users\anhduc\desktop\game\position.h
 	<iostream>
 
-1682997648 source:c:\users\anhduc\desktop\game\snake.cpp
+1683106978 source:c:\users\anhduc\desktop\game\snake.cpp
 	"Snake.h"
 	"Game.h"
 	<iostream>
 
-1682997648 c:\users\anhduc\desktop\game\game.h
+1683080360 c:\users\anhduc\desktop\game\game.h
 	"Position.h"
 	"snake.h"
 	"snake_bot.h"
-	<vector>
-	<queue>
+	<bits/stdc++.h>
 
-1682991212 source:c:\users\anhduc\desktop\game\game.cpp
+1683123033 source:c:\users\anhduc\desktop\game\game.cpp
 	<iostream>
 	"Game.h"
 	"constants.h"
+	"mixer.h"
 
-1682151603 c:\users\anhduc\desktop\game\snake.h
+1683107126 c:\users\anhduc\desktop\game\snake.h
 	<vector>
 	"Position.h"
 
@@ -82,7 +82,7 @@
 1683008911 c:\users\anhduc\desktop\game\mouse_event.h
 	<SDL.h>
 
-1682997648 source:c:\users\anhduc\desktop\game\snake_bot.cpp
+1683106978 source:c:\users\anhduc\desktop\game\snake_bot.cpp
 	"snake_bot.h"
 	"Game.h"
 	"constants.h"
@@ -95,10 +95,10 @@
 	<vector>
 	"Position.h"
 
-1681452743 source:c:\users\anhduc\desktop\game\mixer.cpp
+1683121177 source:c:\users\anhduc\desktop\game\mixer.cpp
 	"mixer.h"
 
-1681444948 c:\users\anhduc\desktop\game\mixer.h
+1683121300 c:\users\anhduc\desktop\game\mixer.h
 	<SDL_mixer.h>
 	<SDL.h>
 	<iostream>

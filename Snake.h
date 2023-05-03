@@ -32,6 +32,7 @@ public:
     void snakeRemoveTail();
     void slideTo(Position newPosition);
     void growAtFront(Position newPosition);
+    void addBird(int num) { bird = num; }
 };
 
 #endif // SNAKE__H

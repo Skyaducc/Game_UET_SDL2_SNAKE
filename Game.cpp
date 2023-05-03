@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Game.h"
 #include "constants.h"
+#include "mixer.h"
 
 using namespace std;
 
@@ -11,17 +12,22 @@ Game::Game(int _width , int _height)
     snake(*this , Position(0 , _height - 1)),
     snakeBot(*this , Position(_width - 1 , 0) , _width , _height),
     status(GAME_RUNNING),
-    score(0) , numBird(0), heart(3),
+    score(0) , numBird(0), heart(3), countBird(0) , hasBonus(true),
     currentDirection(Direction::RIGHT),
     currentMap(MAPS::MAP_ICE),
+    bonusPosition({-1 , -1}),
+    currentDigit(' '),
     idSnakeBot(0),
     traceSnakeBot(_width * _height , Position(0 , 0)),
-    directionSnakeBot(_width * _height , LEFT)
+    directionSnakeBot(_width * _height , LEFT),
+    bonus()
 {
     cout << "Game" << endl;
+    for (int i=0 ; i<5 ; i++)   bonus[BONUS[i]] = false;
     addMap();
 //    addWall();
     addBird();
+    addBonus();
     snakeBot.getPositionsTrace();
     traceSnakeBot = snakeBot.getTraceSnakeBot();
     directionSnakeBot = snakeBot.getDirectionSnakeBot();
@@ -77,6 +83,70 @@ void Game::addMap()
     }
 }
 
+void Game::addBonus()
+{
+    cout << "addBonus" << endl;
+    setCellType(currentDirection , CELL_EMPTY);
+    char notEatBonus[6];
+    int cnt = 0;
+    for (int i=0 ; i<5 ; i++)
+    {
+        if(!bonus[BONUS[i]])    notEatBonus[cnt++] = BONUS[i];
+    }
+    if(cnt == 0)
+    {
+        snake.addBird(3);
+        heart = 3;
+        loadWAV("sound_and_music/full_bonus.wav");
+        for (int i=0 ; i<5 ; i++)
+        {
+            bonus[BONUS[i]] = false;
+            notEatBonus[cnt++] = BONUS[i];
+        }
+    }
+    int ran = rand() % cnt;
+    cout << cnt << " " << ran << " " << notEatBonus[ran] << " ---------------------------------" << endl;
+    do
+    {
+        Position p(rand() % width , rand() % height);
+        if(getCellType(p) == CELL_EMPTY)
+        {
+            if(notEatBonus[ran] == 'b')
+            {
+                setCellType(p , CELL_B);
+                bonusPosition = p;
+                currentDigit = 'b';
+            }
+            if(notEatBonus[ran] == 'o')
+            {
+                setCellType(p , CELL_O);
+                bonusPosition = p;
+                currentDigit = 'o';
+            }
+            if(notEatBonus[ran] == 'n')
+            {
+                setCellType(p , CELL_N);
+                bonusPosition = p;
+                currentDigit = 'n';
+            }
+            if(notEatBonus[ran] == 'u')
+            {
+                setCellType(p , CELL_U);
+                bonusPosition = p;
+                currentDigit = 'u';
+            }
+            if(notEatBonus[ran] == 's')
+            {
+                setCellType(p , CELL_S);
+                bonusPosition = p;
+                currentDigit = 's';
+            }
+            break;
+        }
+    }
+    while(true);
+}
+
 void Game::processUserInput(Direction direction)
 {
     cout << "processUserInput" << endl;
@@ -94,6 +164,7 @@ bool Game::canChange(Direction current , Direction next) const
 void Game::nextStep()
 {
     cout << "nextStep" << endl;
+    cout << "---------------------------" << hasBonus << endl;
     while(!inputQueue.empty())
     {
         Direction next = inputQueue.front();
@@ -104,11 +175,18 @@ void Game::nextStep()
             break;
         }
     }
+    if(countBird == 2 && hasBonus == false)
+    {
+        addBonus();
+        countBird = 0;
+        hasBonus = true;
+    }
     snake.move(currentDirection);
 //    cout << traceSnakeBot[idSnakeBot].x << " " << traceSnakeBot[idSnakeBot].y << endl;
     if(idSnakeBot >= (int)traceSnakeBot.size())
     {
         status = GAME_OVER;
+        loadWAV("sound_and_music/game_over.wav");
         return;
     }
     snakeBot.move(traceSnakeBot[idSnakeBot++]);
@@ -123,6 +201,7 @@ void Game::snakeMoveTo(Position pos)
         case CELL_WALL:
         {
             cout << "CELL_WALL" << endl;
+            loadWAV("sound_and_music/error.wav");
             if(heart >= 0) heart--;
             status = (!heart) ? GAME_OVER : GAME_PAUSE;
 //            status = GAME_OVER;
@@ -131,6 +210,7 @@ void Game::snakeMoveTo(Position pos)
         case CELL_SNAKE:
         {
             cout << "CELL_SNAKE" << endl;
+            loadWAV("sound_and_music/error.wav");
             if(heart >= 0) heart--;
             status = (!heart) ? GAME_OVER : GAME_PAUSE;
 //            status = GAME_OVER;
@@ -139,6 +219,7 @@ void Game::snakeMoveTo(Position pos)
         case CELL_SNAKE_BOT:
         {
             cout << "CELL_SNAKE_BOT" << endl;
+            loadWAV("sound_and_music/error.wav");
             if(heart >= 0) heart--;
             status = (!heart) ? GAME_OVER : GAME_PAUSE;
 //            status = GAME_OVER;
@@ -147,6 +228,7 @@ void Game::snakeMoveTo(Position pos)
         case CELL_BIRD:
         {
             cout << "CELL_BIRD"  << endl;
+            loadWAV("sound_and_music/eat_bird.wav");
             for (int i=-1 ; i<=1 ; i++)
             {
                 for (int j=-1 ; j<=1 ; j++)
@@ -162,8 +244,50 @@ void Game::snakeMoveTo(Position pos)
             if(numBird % 5 == 0 && numBird > 0) score += 5;
             else score += 1;
             numBird++;
+            if(hasBonus == false) countBird++;
             snakeBot.snakeBotRemoveTail();
             resetTraceSnakeBot();
+            break;
+        }
+        case CELL_B:
+        {
+            cout << "                           CELL_B" << endl;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            bonus['b'] = true;
+            hasBonus = false;
+            break;
+        }
+        case CELL_O:
+        {
+            cout << "                                 CELL_O" << endl;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            bonus['o'] = true;
+            hasBonus = false;
+            break;
+        }
+        case CELL_N:
+        {
+            cout << "                        CELL_N" << endl;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            bonus['n'] = true;
+            hasBonus = false;
+            break;
+        }
+        case CELL_U:
+        {
+            cout << "                     CELL_U" << endl;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            bonus['u'] = true;
+            hasBonus = false;
+            break;
+        }
+        case CELL_S:
+        {
+            cout << "                             CELL_S" << endl;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            bonus['s'] = true;
+            hasBonus = false;
+            break;
         }
         default: setCellType(pos , CELL_SNAKE);
     }
@@ -178,6 +302,7 @@ bool Game::snakeBotMoveTo(Position pos)
         case CELL_BIRD:
         {
             cout << "CELL_BIRD" << endl;
+            loadWAV("sound_and_music/eat_bird.wav");
             for (int i=-1 ; i<=1 ; i++)
             {
                 for (int j=-1 ; j<=1 ; j++)
@@ -196,8 +321,40 @@ bool Game::snakeBotMoveTo(Position pos)
             if(numBird % 5 == 0 && numBird > 0) score += 5;
             else score += 1;
             numBird++;
+            if(hasBonus == false) countBird++;
             checkIsCellBird = true;
             snake.snakeRemoveTail();
+            break;
+        }
+        case CELL_B:
+        {
+            hasBonus = false;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            break;
+        }
+        case CELL_O:
+        {
+            hasBonus = false;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            break;
+        }
+        case CELL_N:
+        {
+            hasBonus = false;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            break;
+        }
+        case CELL_U:
+        {
+            hasBonus = false;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            break;
+        }
+        case CELL_S:
+        {
+            hasBonus = false;
+            loadWAV("sound_and_music/eat_bonus.wav");
+            break;
         }
         default: setCellType(pos , CELL_SNAKE_BOT);
     }
@@ -339,6 +496,18 @@ vector<Position> Game::getSnakeBotPositions() const
 {
     cout << "getSnakeBotPositions" << endl;
     return snakeBot.getPositions();
+}
+
+pair<Position , pair<int , bool>> Game::getBonusPosition() const
+{
+    pair<Position , pair<int , bool>> res = {{0 , 0} , {0 , 0}};
+    res.first = bonusPosition;
+    for (int i=0 ; i<5 ; i++)
+    {
+        if(BONUS[i] == currentDigit) res.second.first = i;
+    }
+    res.second.second = hasBonus;
+    return res;
 }
 
 void Game::continuePlay()
