@@ -29,12 +29,11 @@ enum CellType
 
 enum MAPS
 {
-    MAP_GENERAL = 0,
+    MAP_FOREST,
     MAP_FIELD,
-    MAP_VOLCANO,
     MAP_ICE,
-    MAP_SWAMP,
-    MAP_FOREST
+    MAP_VOLCANO,
+    MAP_NUM
 };
 
 
@@ -63,7 +62,7 @@ class Game
 public:
     const int width;
     const int height;
-    Game(int _width , int _height);
+    Game(int _width , int _height , int numMap);
     ~Game();
     void playGameAgain();
 
@@ -74,6 +73,10 @@ public:
     void setGameWin() { status = GAME_WIN; }
 
     void continuePlay();
+    bool checkMapIce() const { return currentMap == MAP_ICE; }
+    bool checkMapForest() const { return currentMap == MAP_FOREST; }
+    bool checkMapField() const { return currentMap == MAP_FIELD; }
+    bool checkMapVolcano() const { return currentMap == MAP_VOLCANO; }
     void checkStatus() { cout << "Game status: " << (int)status << endl; }
     void processUserInput(Direction direction);
     void nextStep();

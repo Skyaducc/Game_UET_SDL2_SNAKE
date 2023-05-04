@@ -18,7 +18,7 @@ void Button::handleEvent(SDL_Event* e)
     {
         int mX , mY;
         SDL_GetMouseState(&mX , &mY);
-//        cout << mX << " " << mY << endl;
+        cout << mX << " " << mY << endl;
         bool inside = true;
         if(mX < x) inside = false;
         else if(mX > x + w) inside = false;

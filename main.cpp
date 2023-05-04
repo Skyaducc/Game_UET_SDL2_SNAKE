@@ -24,18 +24,24 @@ int main( int argc, char* argv[])
     Gallery* gallery = new Gallery(renderer);
     Text* textTexture = new Text(renderer);
 
-    drawIntroBackground(renderer , gallery , textTexture);
-
     Button* buttonPlay = new Button(455 , 110 , 214 , 57);
     Button* buttonExit = new Button(760 , 360 , 135 , 55);
     Button* buttonYes = new Button(350 , 250 , 50 , 20);
     Button* buttonNo = new Button(585 , 250 , 35 , 15);
     Button* buttonPause = new Button(10 , 10 , 50 , 50);
+    Button* buttonMap = new Button(100 , 280 , 200 , 150);
+    Button* buttonMapForest = new Button(180 , 120 , 170 , 90);
+    Button* buttonMapField = new Button(440 , 40 , 130 , 80);
+    Button* buttonMapIce = new Button(540 , 160 , 150 , 90);
+    Button* buttonMapVolcano = new Button(470 , 330 , 140 , 80);
+
     bool exit = false;
     bool quit = false;
+    int selectMap = 1;
+    loadMusic("sound_and_music/intro_sound_track.wav");
     while( !quit )
     {
-        loadMusic("sound_and_music/intro_sound_track.wav");
+        drawIntroBackground(renderer , gallery , textTexture , selectMap);
         while( SDL_PollEvent(&e) != 0 )
         {
             if( e.type == SDL_QUIT )
@@ -56,13 +62,56 @@ int main( int argc, char* argv[])
                 exit = true;
                 SDL_Quit();
             }
+            buttonMap->handleEvent(&e);
+            if(buttonMap->checkMoveDown())
+            {
+                loadWAV("sound_and_music/click_button.wav");
+                bool quitMap = false;
+                while( !quitMap )
+                {
+                    SDL_RenderCopy(renderer , gallery->getImage(PIC_MAPS) , NULL , NULL);
+                    SDL_RenderPresent(renderer);
+                    while(SDL_PollEvent(&e) != 0)
+                    {
+                        if(e.type == SDL_QUIT)  quitMap = true;
+                        buttonMapForest->handleEvent(&e);
+                        if(buttonMapForest->checkMoveDown())
+                        {
+                            loadWAV("sound_and_music/click_button.wav");
+                            quitMap = true;
+                            selectMap = 0;
+                        }
+                        buttonMapField->handleEvent(&e);
+                        if(buttonMapField->checkMoveDown())
+                        {
+                            loadWAV("sound_and_music/click_button.wav");
+                            quitMap = true;
+                            selectMap = 1;
+                        }
+                        buttonMapIce->handleEvent(&e);
+                        if(buttonMapIce->checkMoveDown())
+                        {
+                            loadWAV("sound_and_music/click_button.wav");
+                            quitMap = true;
+                            selectMap = 2;
+                        }
+                        buttonMapVolcano->handleEvent(&e);
+                        if(buttonMapVolcano->checkMoveDown())
+                        {
+                            loadWAV("sound_and_music/click_button.wav");
+                            quitMap = true;
+                            selectMap = 3;
+                        }
+                    }
+                }
+            }
         }
     }
     Mix_HaltMusic();
     if(exit)    return 0;
     while(true)
     {
-        Game game(BOARD_WIDTH , BOARD_HEIGHT);
+        Game game(BOARD_WIDTH , BOARD_HEIGHT , selectMap);
         auto start = CLOCK_NOW();
 //        renderGamePlay(renderer , game , gallery , textTexture , 0);
         bool isPause = false;

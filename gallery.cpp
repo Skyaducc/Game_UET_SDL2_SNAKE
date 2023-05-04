@@ -39,44 +39,49 @@ SDL_Texture* Gallery::loadTexture(std::string path , bool hasColorKey)
 
 void Gallery::loadGamePictures()
 {
-    pictures[PIC_INTRO_BACKGROUND] = loadTexture("intro_background.png" , 0);
-    pictures[PIC_BIRD] = loadTexture("bird.png" , 0);
-    pictures[PIC_BIG_BIRD] = loadTexture("bigBird.png" , 0);
-    pictures[PIC_HEART] = loadTexture("heart.png" , 1);
-    pictures[PIC_HEART_NULL] = loadTexture("heart_null.png" , 1);
+    pictures[PIC_INTRO_BACKGROUND] = loadTexture("picture/intro_background.png" , 0);
+    pictures[PIC_BIRD] = loadTexture("picture/birdPic/bird.png" , 0);
+    pictures[PIC_BIG_BIRD] = loadTexture("picture/birdPic/bigBird.png" , 0);
+    pictures[PIC_HEART] = loadTexture("picture/heartPic/heart.png" , 1);
+    pictures[PIC_HEART_NULL] = loadTexture("picture/heartPic/heart_null.png" , 1);
+    pictures[PIC_WOOD_FRAME] = loadTexture("picture/wood_frame.png" , 1);
 
-    pictures[PIC_BUTTON_EXIT] = loadTexture("button_exit.png" , 0);
-    pictures[PIC_BUTTON_PLAY] = loadTexture("button_play.png" , 0);
+    pictures[PIC_BUTTON_EXIT] = loadTexture("picture/buttonPic/button_exit.png" , 0);
+    pictures[PIC_BUTTON_PLAY] = loadTexture("picture/buttonPic/button_play.png" , 0);
 
-    pictures[PIC_ICON_B] = loadTexture("bonus/icon_B.png" , 1);
-    pictures[PIC_ICON_O] = loadTexture("bonus/icon_O.png" , 1);
-    pictures[PIC_ICON_N] = loadTexture("bonus/icon_N.png" , 1);
-    pictures[PIC_ICON_U] = loadTexture("bonus/icon_U.png" , 1);
-    pictures[PIC_ICON_S] = loadTexture("bonus/icon_S.png" , 1);
-    pictures[PIC_ICON_NULL_B] = loadTexture("bonus/icon_null_B.png" , 1);
-    pictures[PIC_ICON_NULL_O] = loadTexture("bonus/icon_null_O.png" , 1);
-    pictures[PIC_ICON_NULL_N] = loadTexture("bonus/icon_null_N.png" , 1);
-    pictures[PIC_ICON_NULL_U] = loadTexture("bonus/icon_null_U.png" , 1);
-    pictures[PIC_ICON_NULL_S] = loadTexture("bonus/icon_null_S.png" , 1);
-    pictures[PIC_B] = loadTexture("bonus/B.png" , 1);
-    pictures[PIC_O] = loadTexture("bonus/O.png" , 1);
-    pictures[PIC_N] = loadTexture("bonus/N.png" , 1);
-    pictures[PIC_U] = loadTexture("bonus/U.png" , 1);
-    pictures[PIC_S] = loadTexture("bonus/S.png" , 1);
+    pictures[PIC_ICON_B] = loadTexture("picture/bonus/icon_B.png" , 1);
+    pictures[PIC_ICON_O] = loadTexture("picture/bonus/icon_O.png" , 1);
+    pictures[PIC_ICON_N] = loadTexture("picture/bonus/icon_N.png" , 1);
+    pictures[PIC_ICON_U] = loadTexture("picture/bonus/icon_U.png" , 1);
+    pictures[PIC_ICON_S] = loadTexture("picture/bonus/icon_S.png" , 1);
+    pictures[PIC_ICON_NULL_B] = loadTexture("picture/bonus/icon_null_B.png" , 1);
+    pictures[PIC_ICON_NULL_O] = loadTexture("picture/bonus/icon_null_O.png" , 1);
+    pictures[PIC_ICON_NULL_N] = loadTexture("picture/bonus/icon_null_N.png" , 1);
+    pictures[PIC_ICON_NULL_U] = loadTexture("picture/bonus/icon_null_U.png" , 1);
+    pictures[PIC_ICON_NULL_S] = loadTexture("picture/bonus/icon_null_S.png" , 1);
+    pictures[PIC_B] = loadTexture("picture/bonus/B.png" , 1);
+    pictures[PIC_O] = loadTexture("picture/bonus/O.png" , 1);
+    pictures[PIC_N] = loadTexture("picture/bonus/N.png" , 1);
+    pictures[PIC_U] = loadTexture("picture/bonus/U.png" , 1);
+    pictures[PIC_S] = loadTexture("picture/bonus/S.png" , 1);
 
-    pictures[PIC_MAP_FIELD] = loadTexture("field_world/map_field.png" , 0);
-    pictures[PIC_WALL] = loadTexture("field_world/wall.png" , 0);
-    pictures[PIC_SNAKE_VERTICAL_FIELD] = loadTexture("field_world/vertical_snake.png" , 1);
-    pictures[PIC_SNAKE_HORIZONTAL_FIELD] = loadTexture("field_world/horizontal_snake.png" , 1);
-    pictures[PIC_SNAKE_HEAD_FIELD] = loadTexture("field_world/head_snake.png" , 1);
-    pictures[PIC_SNAKE_BOT_VERTICAL_FIELD] = loadTexture("field_world/vertical_snake_bot.png" , 1);
-    pictures[PIC_SNAKE_BOT_HORIZONTAL_FIELD] = loadTexture("field_world/horizontal_snake_bot.png" , 1);
-    pictures[PIC_SNAKE_BOT_HEAD_FIELD] = loadTexture("field_world/head_snake_bot.png" , 1);
 
-    pictures[PIC_MAP_ICE] = loadTexture("map_picture/map_ice.png" , 0);
-    pictures[PIC_MAP_VOLCANO] = loadTexture("map_picture/map_volcano.png" , 0);
-    pictures[PIC_MAP_FOREST] = loadTexture("map_picture/map_forest.png" , 0);
-    pictures[PIC_MAP_SWAMP] = loadTexture("map_picture/map_swamp.png" , 0);
-    pictures[PIC_WOOD_FRAME] = loadTexture("wood_frame.png" , 1);
+    pictures[PIC_WALL] = loadTexture("picture/wall.png" , 0);
+    pictures[PIC_SNAKE_VERTICAL_FIELD] = loadTexture("picture/snakePic/vertical_snake.png" , 1);
+    pictures[PIC_SNAKE_HORIZONTAL_FIELD] = loadTexture("picture/snakePic/horizontal_snake.png" , 1);
+    pictures[PIC_SNAKE_HEAD_FIELD] = loadTexture("picture/snakePic/head_snake.png" , 1);
+    pictures[PIC_SNAKE_BOT_VERTICAL_FIELD] = loadTexture("picture/snakePic/vertical_snake_bot.png" , 1);
+    pictures[PIC_SNAKE_BOT_HORIZONTAL_FIELD] = loadTexture("picture/snakePic/horizontal_snake_bot.png" , 1);
+    pictures[PIC_SNAKE_BOT_HEAD_FIELD] = loadTexture("picture/snakePic/head_snake_bot.png" , 1);
+
+    pictures[PIC_MAP_FIELD] = loadTexture("picture/mapPic/map_field.png" , 0);
+    pictures[PIC_MAP_ICE] = loadTexture("picture/mapPic/map_ice.png" , 0);
+    pictures[PIC_MAP_VOLCANO] = loadTexture("picture/mapPic/map_volcano.png" , 0);
+    pictures[PIC_MAP_FOREST] = loadTexture("picture/mapPic/map_forest.png" , 0);
+    pictures[PIC_MAPS] = loadTexture("picture/mapPic/maps.png" , 0);
+    pictures[PIC_MAP_REVIEW_FIELD] = loadTexture("picture/reviewPic/field.png" , 0);
+    pictures[PIC_MAP_REVIEW_ICE] = loadTexture("picture/reviewPic/ice.png" , 0);
+    pictures[PIC_MAP_REVIEW_VOLCANO] = loadTexture("picture/reviewPic/volcano.png" , 0);
+    pictures[PIC_MAP_REVIEW_FOREST] = loadTexture("picture/reviewPic/forest.png" , 0);
 
 }

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Game::Game(int _width , int _height)
+Game::Game(int _width , int _height , int numMap)
     : width(_width) , height(_height),
     squares(_height , vector<CellType>(_width , CELL_EMPTY)),
     hasWall(_height , vector<bool>(_width , false)),
@@ -14,7 +14,7 @@ Game::Game(int _width , int _height)
     status(GAME_RUNNING),
     score(0) , numBird(0), heart(3), countBird(0) , hasBonus(true),
     currentDirection(Direction::RIGHT),
-    currentMap(MAPS::MAP_ICE),
+    currentMap(static_cast<MAPS>(numMap)),
     bonusPosition({-1 , -1}),
     currentDigit(' '),
     idSnakeBot(0),
@@ -25,7 +25,6 @@ Game::Game(int _width , int _height)
     cout << "Game" << endl;
     for (int i=0 ; i<5 ; i++)   bonus[BONUS[i]] = false;
     addMap();
-//    addWall();
     addBird();
     addBonus();
     snakeBot.getPositionsTrace();
@@ -39,36 +38,6 @@ Game::~Game()
     //
 }
 
-void Game::playGameAgain()
-{
-    cout << "playGameAgain" << endl;
-    for (int i=0 ; i<height ; i++)
-    {
-        for (int j=0 ; j<width ; j++)
-        {
-            squares[i][j] = CELL_EMPTY;
-            hasWall[i][j] = false;
-        }
-    }
-    currentDirection = Direction::RIGHT;
-    currentMap = MAPS::MAP_ICE;
-    status = GAME_RUNNING;
-    score = numBird = idSnakeBot = 0;
-    heart = 3;
-    traceSnakeBot.clear();
-    directionSnakeBot.clear();
-//    snake.~Snake();
-//    snakeBot.~SnakeBot();
-    Snake snake(*this , Position(0 , height - 1));
-    SnakeBot snakeBot(*this , Position(width - 1 , 0) , width , height);
-    addMap();
-    snakeMoveTo(Position(0 , height - 1));
-    addBird();
-    snakeBot.getPositionsTrace();
-    traceSnakeBot = snakeBot.getTraceSnakeBot();
-    directionSnakeBot = snakeBot.getDirectionSnakeBot();
-}
-
 void Game::addMap()
 {
     cout << "addMap" << endl;
@@ -77,8 +46,26 @@ void Game::addMap()
     {
         for (int j=0 ; j<width ; j++)
         {
-            if(mapField[num] == 1)     hasWall[i][j] = 1;
-            squares[i][j] = (CellType)mapField[num++];
+            if(currentMap == MAP_FOREST)
+            {
+                if(mapForest[num] == 1)     hasWall[i][j] = 1;
+                squares[i][j] = (CellType)mapForest[num++];
+            }
+            if(currentMap == MAP_ICE)
+            {
+                if(mapIce[num] == 1)     hasWall[i][j] = 1;
+                squares[i][j] = (CellType)mapIce[num++];
+            }
+            if(currentMap == MAP_VOLCANO)
+            {
+                if(mapVolcano[num] == 1)     hasWall[i][j] = 1;
+                squares[i][j] = (CellType)mapVolcano[num++];
+            }
+            if(currentMap == MAP_FIELD)
+            {
+                if(mapField[num] == 1)     hasWall[i][j] = 1;
+                squares[i][j] = (CellType)mapField[num++];
+            }
         }
     }
 }

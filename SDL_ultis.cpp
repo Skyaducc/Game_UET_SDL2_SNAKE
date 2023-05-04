@@ -65,7 +65,7 @@ SDL_Rect getRect(int x , int y , int w , int h)
     return res;
 }
 
-void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture)
+void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , int selectMap)
 {
     // draw intro background
     SDL_RenderCopy(renderer , gallery->getImage(PIC_INTRO_BACKGROUND) , NULL , NULL);
@@ -75,24 +75,27 @@ void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textT
     // draw exit button
     frame = getRect(760 , 305 , 135 , 135);
     SDL_RenderCopy(renderer , gallery->getImage(PIC_BUTTON_EXIT), NULL , &frame);
-
-//    frame = getRect(370 , 270 , 170 , 60);
-//    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
-//    textTexture->loadGameFont("MAPS" , 30);
-//    textTexture->render(400 , 290);
-//
-//    frame = getRect(370 , 360 , 170 , 60);
-//    SDL_RenderCopy(renderer , gallery->getImage(PIC_GAME_MENU) , NULL , &frame);
-//    textTexture->loadGameFont("QUIT" , 30);
-//    textTexture->render(400 , 380);
+    // draw map
+    SDL_Texture* Texture = nullptr;
+    if(selectMap == 0)  Texture = gallery->getImage(PIC_MAP_REVIEW_FOREST);
+    else if(selectMap == 1)  Texture = gallery->getImage(PIC_MAP_REVIEW_FIELD);
+    else if(selectMap == 2)  Texture = gallery->getImage(PIC_MAP_REVIEW_ICE);
+    else if(selectMap == 3)  Texture = gallery->getImage(PIC_MAP_REVIEW_VOLCANO);
+    frame = getRect(100 , 280 , 200 , 150);
+    SDL_RenderCopy(renderer , Texture , NULL , &frame);
 
     SDL_RenderPresent(renderer);
 //    waitUntilKeyPressed();
 }
 
-void drawBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , const Game& game , int top , int left)
+void drawBackground(SDL_Renderer* renderer , Gallery* gallery , const Game& game , int top , int left)
 {
-    SDL_RenderCopy(renderer , gallery->getImage(PIC_MAP_FIELD) , NULL , NULL);
+    SDL_Texture* Texture = nullptr;
+    if(game.checkMapField()) Texture = gallery->getImage(PIC_MAP_FIELD);
+    if(game.checkMapForest())  Texture = gallery->getImage(PIC_MAP_FOREST);
+    if(game.checkMapIce())  Texture = gallery->getImage(PIC_MAP_ICE);
+    if(game.checkMapVolcano())  Texture = gallery->getImage(PIC_MAP_VOLCANO);
+    SDL_RenderCopy(renderer , Texture , NULL , NULL);
 }
 
 void drawCell(SDL_Renderer* renderer , int left , int top , Position pos , SDL_Texture* Texture)
@@ -219,7 +222,7 @@ void renderGamePlay(SDL_Renderer* renderer , const Game& game , Gallery* gallery
     SDL_SetRenderDrawColor(renderer , BOARD_COLOR.r , BOARD_COLOR.g , BOARD_COLOR.b , 0);
     SDL_RenderClear(renderer);
 
-    drawBackground(renderer , gallery , textTexture , game , top , left);
+    drawBackground(renderer , gallery , game , top , left);
     drawWall(renderer , gallery->getImage(PIC_WALL) , game , top , left);
     const int heart = game.getHeart();
     drawHeart(renderer , gallery , heart , top , left);
