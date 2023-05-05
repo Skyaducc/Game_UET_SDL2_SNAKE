@@ -21,7 +21,7 @@
 	"tt_font.h"
 	"mouse_event.h"
 
-1683168386 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
+1683252130 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_ttf.h>
@@ -57,7 +57,7 @@
 	"snake_bot.h"
 	<bits/stdc++.h>
 
-1683161472 source:c:\users\anhduc\desktop\game\game.cpp
+1683251829 source:c:\users\anhduc\desktop\game\game.cpp
 	<iostream>
 	"Game.h"
 	"constants.h"

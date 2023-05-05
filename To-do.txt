@@ -1,9 +1,4 @@
-Hiệu ứng âm thanh cần:
-- âm thanh nền ở introbackground                                 x
-- âm thanh nền trong game                                        x
-- âm thanh khi click vào các button                              x
-- âm thanh khi ăn được bird                                      x
-- âm thanh khi ăn được bonus                                     x
-- âm thanh khi ăn đủ chữ bonus                                   x
-- âm thanh khi đâm vào tường , rắn khác
-- âm thanh khi game lose , game win                              x       
+vẽ các đoạn chuyển của rắn
+thêm nút pause
+thêm nút setting
+tốc độ rắn

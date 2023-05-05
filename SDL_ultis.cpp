@@ -296,25 +296,25 @@ void interpretEvent(SDL_Event e, Game& game)
     {
         switch (e.key.keysym.sym)
         {
-        	case SDLK_UP:
+        	case SDLK_w:
             {
                 game.processUserInput(UP);
                 loadWAV("sound_and_music/snake_move.wav");
                 break;
             }
-        	case SDLK_DOWN:
+        	case SDLK_s:
             {
                 game.processUserInput(DOWN);
                 loadWAV("sound_and_music/snake_move.wav");
                 break;
             }
-        	case SDLK_LEFT:
+        	case SDLK_a:
             {
                 game.processUserInput(LEFT);
                 loadWAV("sound_and_music/snake_move.wav");
                 break;
             }
-        	case SDLK_RIGHT:
+        	case SDLK_d:
             {
                 game.processUserInput(RIGHT);
                 loadWAV("sound_and_music/snake_move.wav");
