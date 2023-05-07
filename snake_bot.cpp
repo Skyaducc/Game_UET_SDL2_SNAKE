@@ -43,7 +43,7 @@ vector<Position> SnakeBot::getPositions() const
 
 void SnakeBot::growAtFront(Position newPosition)
 {
-    cout << "SnakeBot growAtFront" << endl;
+    cout << "SnakeBot growAtFront" <<endl;
     head->next = new SnakeBotNode(newPosition);
     head = head->next;
 }
