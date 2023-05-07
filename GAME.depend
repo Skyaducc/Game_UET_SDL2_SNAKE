@@ -21,7 +21,7 @@
 	"tt_font.h"
 	"mouse_event.h"
 
-1683252130 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
+1683469541 source:c:\users\anhduc\desktop\game\sdl_ultis.cpp
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_ttf.h>
@@ -32,7 +32,7 @@
 	"Position.h"
 	"Game.h"
 
-1683168392 source:c:\users\anhduc\desktop\game\gallery.cpp
+1683470975 source:c:\users\anhduc\desktop\game\gallery.cpp
 	"SDL_ultis.h"
 	"gallery.h"
 	<SDL_image.h>
@@ -40,7 +40,7 @@
 1683131933 c:\users\anhduc\desktop\game\constants.h
 	<SDL.h>
 
-1683168386 c:\users\anhduc\desktop\game\gallery.h
+1683470978 c:\users\anhduc\desktop\game\gallery.h
 	<SDL.h>
 
 1681702569 c:\users\anhduc\desktop\game\position.h
@@ -57,7 +57,7 @@
 	"snake_bot.h"
 	<bits/stdc++.h>
 
-1683251829 source:c:\users\anhduc\desktop\game\game.cpp
+1683379127 source:c:\users\anhduc\desktop\game\game.cpp
 	<iostream>
 	"Game.h"
 	"constants.h"

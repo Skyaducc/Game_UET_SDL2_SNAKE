@@ -67,12 +67,16 @@ void Gallery::loadGamePictures()
 
 
     pictures[PIC_WALL] = loadTexture("picture/wall.png" , 0);
-    pictures[PIC_SNAKE_VERTICAL_FIELD] = loadTexture("picture/snakePic/vertical_snake.png" , 1);
-    pictures[PIC_SNAKE_HORIZONTAL_FIELD] = loadTexture("picture/snakePic/horizontal_snake.png" , 1);
-    pictures[PIC_SNAKE_HEAD_FIELD] = loadTexture("picture/snakePic/head_snake.png" , 1);
-    pictures[PIC_SNAKE_BOT_VERTICAL_FIELD] = loadTexture("picture/snakePic/vertical_snake_bot.png" , 1);
-    pictures[PIC_SNAKE_BOT_HORIZONTAL_FIELD] = loadTexture("picture/snakePic/horizontal_snake_bot.png" , 1);
-    pictures[PIC_SNAKE_BOT_HEAD_FIELD] = loadTexture("picture/snakePic/head_snake_bot.png" , 1);
+    pictures[PIC_SNAKE_VERTICAL] = loadTexture("picture/snakePic/vertical_snake.png" , 1);
+    pictures[PIC_SNAKE_HORIZONTAL] = loadTexture("picture/snakePic/horizontal_snake.png" , 1);
+    pictures[PIC_SNAKE_HEAD] = loadTexture("picture/snakePic/head_snake.png" , 1);
+    pictures[PIC_SNAKE_TURN] = loadTexture("picture/snakePic/turn_snake.png" , 1);
+    pictures[PIC_SNAKE_TAIL] = loadTexture("picture/snakePic/tail_snake.png" , 1);
+    pictures[PIC_SNAKE_BOT_VERTICAL] = loadTexture("picture/snakePic/vertical_snake_bot.png" , 1);
+    pictures[PIC_SNAKE_BOT_HORIZONTAL] = loadTexture("picture/snakePic/horizontal_snake_bot.png" , 1);
+    pictures[PIC_SNAKE_BOT_HEAD] = loadTexture("picture/snakePic/head_snake_bot.png" , 1);
+    pictures[PIC_SNAKE_BOT_TURN] = loadTexture("picture/snakePic/turn_snake_bot.png" , 1);
+    pictures[PIC_SNAKE_BOT_TAIL] = loadTexture("picture/snakePic/tail_snake_bot.png" , 1);
 
     pictures[PIC_MAP_FIELD] = loadTexture("picture/mapPic/map_field.png" , 0);
     pictures[PIC_MAP_ICE] = loadTexture("picture/mapPic/map_ice.png" , 0);

@@ -172,7 +172,7 @@ void Game::nextStep()
 //    cout << traceSnakeBot[idSnakeBot].x << " " << traceSnakeBot[idSnakeBot].y << endl;
     if(idSnakeBot >= (int)traceSnakeBot.size())
     {
-        cout << "idsnakebot >= size trace snake bot" << endl;
+        cout << "idsnakebot >= size trace snake bot" << " " << idSnakeBot << " " << (int)traceSnakeBot.size() << endl;
         status = GAME_OVER;
         loadWAV("sound_and_music/game_over.wav");
         return;

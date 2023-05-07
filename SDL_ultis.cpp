@@ -135,14 +135,65 @@ void drawSnake(SDL_Renderer* renderer , int left , int top , vector<Position> po
     if(currentDirection == 0)   angle = -90;
     else if(currentDirection == 1)   angle = 90;
     else if(currentDirection == 2)  angle = 180;
-    SDL_RenderCopyEx(renderer , gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_HEAD_FIELD : PIC_SNAKE_HEAD_FIELD) , NULL , &cell , angle , NULL , SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer , gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_HEAD : PIC_SNAKE_HEAD) , NULL , &cell , angle , NULL , SDL_FLIP_NONE);
     for(int i=pos.size() - 2 ; i>=0 ; i--)
     {
+        SDL_Rect cell;
+        cell.x = left + pos[i].x * CELL_SIZE;
+        cell.y = top + pos[i].y * CELL_SIZE;
+        cell.w = CELL_SIZE;
+        cell.h = CELL_SIZE;
         SDL_Texture* texture = nullptr;
-        if(pos[i].y == pos[i+1].y)
-            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_HORIZONTAL_FIELD : PIC_SNAKE_HORIZONTAL_FIELD);
-        else texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_VERTICAL_FIELD : PIC_SNAKE_VERTICAL_FIELD);
-        drawCell(renderer , left , top , pos[i] , texture);
+        if(i == 0)
+        {
+            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_TAIL : PIC_SNAKE_TAIL);
+            if(pos[i].y == pos[i+1].y)
+            {
+                if(pos[i].x == pos[i+1].x - 1)  angle = 0;
+                else angle = 180;
+            }
+            else
+            {
+                if(pos[i].y == pos[i+1].y - 1)  angle = 90;
+                else angle = -90;
+            }
+            SDL_RenderCopyEx(renderer , texture , NULL , &cell , angle , NULL , SDL_FLIP_NONE);
+            break;
+        }
+        if((pos[i].y == pos[i+1].y - 1 && pos[i].x == pos[i-1].x + 1) || (pos[i].y == pos[i-1].y - 1 && pos[i].x == pos[i+1].x + 1))
+        {
+            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_TURN : PIC_SNAKE_TURN);
+            angle = 0;
+            SDL_RenderCopyEx(renderer , texture , NULL , &cell , angle , NULL , SDL_FLIP_NONE);
+        }
+        else if((pos[i].y == pos[i+1].y - 1 && pos[i].x == pos[i-1].x - 1) || (pos[i].y == pos[i-1].y - 1 && pos[i].x == pos[i+1].x - 1))
+        {
+            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_TURN : PIC_SNAKE_TURN);
+            angle = 0;
+            SDL_RenderCopyEx(renderer , texture , NULL , &cell , angle , NULL , SDL_FLIP_HORIZONTAL);
+        }
+        else if((pos[i].y == pos[i+1].y + 1 && pos[i].x == pos[i-1].x + 1) || (pos[i].y == pos[i-1].y + 1 && pos[i].x == pos[i+1].x + 1))
+        {
+            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_TURN : PIC_SNAKE_TURN);
+            angle = 180;
+            SDL_RenderCopyEx(renderer , texture , NULL , &cell , angle , NULL , SDL_FLIP_HORIZONTAL);
+        }
+        else if((pos[i].y == pos[i+1].y + 1 && pos[i].x == pos[i-1].x - 1 || pos[i].y == pos[i-1].y + 1 && pos[i].x == pos[i+1].x - 1))
+        {
+            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_TURN : PIC_SNAKE_TURN);
+            angle = 180;
+            SDL_RenderCopyEx(renderer , texture , NULL , &cell , angle , NULL , SDL_FLIP_NONE);
+        }
+        else if(pos[i].y == pos[i+1].y)
+        {
+            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_HORIZONTAL : PIC_SNAKE_HORIZONTAL);
+            drawCell(renderer , left , top , pos[i] , texture);
+        }
+        else
+        {
+            texture = gallery->getImage((isSnakeBot) ? PIC_SNAKE_BOT_VERTICAL : PIC_SNAKE_VERTICAL);
+            drawCell(renderer , left , top , pos[i] , texture);
+        }
     }
 }
 
@@ -246,17 +297,17 @@ bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* rendere
     bool quit = false;
     SDL_Event e;
     SDL_Rect frame = getRect(270 , 50, 420 , 294);
-    SDL_RenderCopy(renderer , gallery->getImage(PIC_WOOD_FRAME) , NULL , &frame);
-    if(isGameOver)
-    {
-        textTexture->loadGameFont("GAME OVER" , 40);
-        textTexture->render(310 , 130);
-    }
-    else
-    {
-        textTexture->loadGameFont("YOU WIN" , 40);
-        textTexture->render(340 , 130);
-    }
+//    SDL_RenderCopy(renderer , gallery->getImage(PIC_WOOD_FRAME) , NULL , &frame);
+//    if(isGameOver)
+//    {
+//        textTexture->loadGameFont("GAME OVER" , 40);
+//        textTexture->render(310 , 130);
+//    }
+//    else
+//    {
+//        textTexture->loadGameFont("YOU WIN" , 40);
+//        textTexture->render(340 , 130);
+//    }
     textTexture->loadGameFont("Play Continue?" , 20);
     textTexture->render(350 , 200);
     textTexture->loadGameFont("YES" , 20);
@@ -315,6 +366,30 @@ void interpretEvent(SDL_Event e, Game& game)
                 break;
             }
         	case SDLK_d:
+            {
+                game.processUserInput(RIGHT);
+                loadWAV("sound_and_music/snake_move.wav");
+                break;
+            }
+            case SDLK_UP:
+            {
+                game.processUserInput(UP);
+                loadWAV("sound_and_music/snake_move.wav");
+                break;
+            }
+        	case SDLK_DOWN:
+            {
+                game.processUserInput(DOWN);
+                loadWAV("sound_and_music/snake_move.wav");
+                break;
+            }
+        	case SDLK_LEFT:
+            {
+                game.processUserInput(LEFT);
+                loadWAV("sound_and_music/snake_move.wav");
+                break;
+            }
+        	case SDLK_RIGHT:
             {
                 game.processUserInput(RIGHT);
                 loadWAV("sound_and_music/snake_move.wav");
