@@ -5,7 +5,6 @@
 #include <iostream>
 #include <algorithm>
 
-
 SnakeBot::SnakeBot(Game& _game , Position start , int _width , int _height)
     : head(new SnakeBotNode(start)) , tail(head) , game(_game) , bird(0), score(0),
     startPosition(0) , finishPosition(0),
