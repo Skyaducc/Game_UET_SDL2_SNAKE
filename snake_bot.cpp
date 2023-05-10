@@ -149,17 +149,17 @@ void SnakeBot::getPositionsTrace()
     cout << "SnakeBot getPositionsTrace" << endl;
     SnakeBotNode* p = head;
     startPosition = getVertice(p->position.x , p->position.y);
-//    cout << p->position.x << " " << p->position.y << endl;
+    cout << p->position.x << " " << p->position.y << endl;
     vector<vector<CellType>> squares = game.getSquares();
-//    cout << game.height << " " << game.width << endl;
-//    for (int y=0 ; y<game.height ; y++)
-//    {
-//        for (int x=0 ; x<game.width ; x++)
-//        {
-//            cout << squares[y][x] << " ";
-//        }
-//        cout << endl;
-//    }
+    cout << game.height << " " << game.width << endl;
+    for (int y=0 ; y<game.height ; y++)
+    {
+        for (int x=0 ; x<game.width ; x++)
+        {
+            cout << squares[y][x] << " ";
+        }
+        cout << endl;
+    }
     for (int i=0 ; i<game.height * game.width ; i++)    adj[i].clear();
     traceSnakeBot.clear();
     returnPosition.clear();
@@ -170,7 +170,7 @@ void SnakeBot::getPositionsTrace()
 		    returnPosition[getVertice(x , y)] = {x , y};
 		    if(squares[y][x] == CELL_BIRD) finishPosition = getVertice(x , y);
 			if(squares[y][x] == CELL_WALL)	continue;
-			if(squares[y][x] == CELL_SNAKE_BOT && (x != p->position.x || y != p->position.y)) continue;
+			if(squares[y][x] == CELL_SNAKE_BOT) continue;
 			for (int k=0 ; k<3 ; k++)
 			{
 				int newX = x + dx[k];
@@ -186,6 +186,19 @@ void SnakeBot::getPositionsTrace()
 			}
 		}
 	}
+	for (int k=0 ; k<3 ; k++)
+    {
+        int newX = p->position.x + dx[k];
+        int newY = p->position.y + dy[k];
+        if(checkInside(newX , newY) && (squares[newY][newX] != CELL_WALL && squares[newY][newX] != CELL_SNAKE_BOT))
+        {
+            cout << p->position.x << " " << p->position.y << " " << newX << " " << newY << endl;
+            int u = getVertice(p->position.x , p->position.y);
+            int v = getVertice(newX , newY);
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+    }
 	bfs();
 	if(dist[finishPosition] == 1e9)
     {

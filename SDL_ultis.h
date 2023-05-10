@@ -21,7 +21,7 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 
 void waitUntilKeyPressed();
 
-void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , int selectMap);
+void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , int selectMap , int selectLevel);
 
 void renderGamePlay(SDL_Renderer* , const Game& game , Gallery* gallery , Text* textTexture , Uint32 elapsedTimeReal);
 

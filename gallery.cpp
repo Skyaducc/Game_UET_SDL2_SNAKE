@@ -45,6 +45,10 @@ void Gallery::loadGamePictures()
     pictures[PIC_HEART] = loadTexture("picture/heartPic/heart.png" , 1);
     pictures[PIC_HEART_NULL] = loadTexture("picture/heartPic/heart_null.png" , 1);
     pictures[PIC_WOOD_FRAME] = loadTexture("picture/wood_frame.png" , 1);
+    pictures[PIC_LEVEL_FRAME] = loadTexture("picture/level_frame.png" , 1);
+    pictures[PIC_EASY] = loadTexture("picture/level/easy.png" , 1);
+    pictures[PIC_MEDIUM] = loadTexture("picture/level/medium.png" , 1);
+    pictures[PIC_HARD] = loadTexture("picture/level/hard.png" , 1);
 
     pictures[PIC_BUTTON_EXIT] = loadTexture("picture/buttonPic/button_exit.png" , 0);
     pictures[PIC_BUTTON_PLAY] = loadTexture("picture/buttonPic/button_play.png" , 0);

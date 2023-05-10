@@ -65,7 +65,7 @@ SDL_Rect getRect(int x , int y , int w , int h)
     return res;
 }
 
-void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , int selectMap)
+void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textTexture , int selectMap , int selectLevel)
 {
     // draw intro background
     SDL_RenderCopy(renderer , gallery->getImage(PIC_INTRO_BACKGROUND) , NULL , NULL);
@@ -82,6 +82,13 @@ void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textT
     else if(selectMap == 2)  Texture = gallery->getImage(PIC_MAP_REVIEW_ICE);
     else if(selectMap == 3)  Texture = gallery->getImage(PIC_MAP_REVIEW_VOLCANO);
     frame = getRect(100 , 280 , 200 , 150);
+    SDL_RenderCopy(renderer , Texture , NULL , &frame);
+    // draw level
+    Texture = nullptr;
+    if(selectLevel == 1)    Texture = gallery->getImage(PIC_EASY);
+    else if(selectLevel == 2)   Texture = gallery->getImage(PIC_MEDIUM);
+    else if(selectLevel == 3)   Texture = gallery->getImage(PIC_HARD);
+    frame = getRect(-50 , -100 , 300 , 300);
     SDL_RenderCopy(renderer , Texture , NULL , &frame);
 
     SDL_RenderPresent(renderer);

@@ -384,6 +384,7 @@ void Game::addBird()
     do
     {
         Position p(rand() % width , rand() % height);
+        if((p.x == 0 && p.y == height) || (p.x == width || p.y == 0))    continue;
         if(getCellType(p) == CELL_EMPTY)
         {
             setCellType(p , CELL_BIRD);

@@ -34,14 +34,19 @@ int main( int argc, char* argv[])
     Button* buttonMapField = new Button(440 , 40 , 130 , 80);
     Button* buttonMapIce = new Button(540 , 160 , 150 , 90);
     Button* buttonMapVolcano = new Button(470 , 330 , 140 , 80);
+    Button* buttonLevel = new Button(30 , 20 , 140 , 40);
+    Button* buttonEasy = new Button(400 , 200 , 150 , 30);
+    Button* buttonMedium = new Button(400 , 280 , 150 , 40);
+    Button* buttonHard = new Button(400 , 350 , 150 , 30);
 
     bool exit = false;
     bool quit = false;
     int selectMap = 1;
+    int selectLevel = 1;
     loadMusic("sound_and_music/intro_sound_track.wav");
     while( !quit )
     {
-        drawIntroBackground(renderer , gallery , textTexture , selectMap);
+        drawIntroBackground(renderer , gallery , textTexture , selectMap , selectLevel);
         while( SDL_PollEvent(&e) != 0 )
         {
             if( e.type == SDL_QUIT )
@@ -61,6 +66,44 @@ int main( int argc, char* argv[])
                 quit = true;
                 exit = true;
                 SDL_Quit();
+            }
+            buttonLevel->handleEvent(&e);
+            if(buttonLevel->checkMoveDown())
+            {
+                loadWAV("sound_and_music/click_button.wav");
+                bool quitLevel = false;
+                while( !quitLevel )
+                {
+                    SDL_Rect frame;
+                    frame.x = 250 , frame.y = 0 , frame.w = 450 , frame.h = 450;
+                    SDL_RenderCopy(renderer , gallery->getImage(PIC_LEVEL_FRAME) , NULL , &frame);
+                    SDL_RenderPresent(renderer);
+                    while(SDL_PollEvent(&e) != 0)
+                    {
+                        if(e.type == SDL_QUIT) quitLevel = true;
+                        buttonEasy->handleEvent(&e);
+                        if(buttonEasy->checkMoveDown())
+                        {
+                            loadWAV("sound_and_music/click_button.wav");
+                            selectLevel = 1;
+                            quitLevel = true;
+                        }
+                        buttonMedium->handleEvent(&e);
+                        if(buttonMedium->checkMoveDown())
+                        {
+                            loadWAV("sound_and_music/click_button.wav");
+                            selectLevel = 2;
+                            quitLevel = true;
+                        }
+                        buttonHard->handleEvent(&e);
+                        if(buttonHard->checkMoveDown())
+                        {
+                            loadWAV("sound_and_music/click_button.wav");
+                            selectLevel = 3;
+                            quitLevel = true;
+                        }
+                    }
+                }
             }
             buttonMap->handleEvent(&e);
             if(buttonMap->checkMoveDown())
@@ -137,7 +180,11 @@ int main( int argc, char* argv[])
                     renderGamePlay(renderer , game , gallery , textTexture , elapsedTimeReal);
                     start = end;
                 }
-                SDL_Delay(200);
+                int delay = 200;
+                if(selectLevel == 1)    delay = 300;
+                else if(selectLevel == 3)   delay = 100;
+                else if(selectLevel == 2)   delay = 200;
+                SDL_Delay(delay);
             }
             bool isGamePause = game.isGamePause();
             if(isGamePause)
