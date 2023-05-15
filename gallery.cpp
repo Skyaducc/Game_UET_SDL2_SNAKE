@@ -39,16 +39,23 @@ SDL_Texture* Gallery::loadTexture(std::string path , bool hasColorKey)
 
 void Gallery::loadGamePictures()
 {
-    pictures[PIC_INTRO_BACKGROUND] = loadTexture("picture/intro_background.png" , 0);
+    pictures[PIC_INTRO_BACKGROUND] = loadTexture("picture/introPic/intro_background.png" , 0);
+    pictures[PIC_LEVEL_FRAME] = loadTexture("picture/introPic/level_frame.png" , 1);
+    pictures[PIC_INTRO_FIELD] = loadTexture("picture/introPic/FIELD.png" , 1);
+    pictures[PIC_INTRO_ICE] = loadTexture("picture/introPic/ICE.png" , 1);
+    pictures[PIC_INTRO_FOREST] = loadTexture("picture/introPic/FOREST.png" , 1);
+    pictures[PIC_INTRO_VOLCANO] = loadTexture("picture/introPic/VOLCANO.png" , 1);
+
     pictures[PIC_BIRD] = loadTexture("picture/birdPic/bird.png" , 0);
     pictures[PIC_BIG_BIRD] = loadTexture("picture/birdPic/bigBird.png" , 0);
     pictures[PIC_HEART] = loadTexture("picture/heartPic/heart.png" , 1);
     pictures[PIC_HEART_NULL] = loadTexture("picture/heartPic/heart_null.png" , 1);
     pictures[PIC_WOOD_FRAME] = loadTexture("picture/wood_frame.png" , 1);
-    pictures[PIC_LEVEL_FRAME] = loadTexture("picture/level_frame.png" , 1);
     pictures[PIC_EASY] = loadTexture("picture/level/easy.png" , 1);
     pictures[PIC_MEDIUM] = loadTexture("picture/level/medium.png" , 1);
     pictures[PIC_HARD] = loadTexture("picture/level/hard.png" , 1);
+    pictures[PIC_PAUSE_ICON] = loadTexture("picture/pause_icon.png" , 1);
+    pictures[PIC_PAUSE_FRAME] = loadTexture("picture/pause_frame.png" , 1);
 
     pictures[PIC_BUTTON_EXIT] = loadTexture("picture/buttonPic/button_exit.png" , 0);
     pictures[PIC_BUTTON_PLAY] = loadTexture("picture/buttonPic/button_play.png" , 0);

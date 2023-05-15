@@ -304,11 +304,16 @@ bool Game::snakeBotMoveTo(Position pos)
                 }
             }
             snakeBot.eatbird();
-            if(numBird % 5 == 4)    addBigBird();
-            else addBird();
-            if(numBird % 5 == 0 && numBird > 0) score += 5;
-            else score += 1;
-            numBird++;
+            if(numBird % 5 == 4)
+            {
+                addBigBird();
+                numBird += 2;
+            }
+            else
+            {
+                addBird();
+                numBird++;
+            }
             if(hasBonus == false) countBird++;
             checkIsCellBird = true;
             snake.snakeRemoveTail();

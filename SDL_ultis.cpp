@@ -90,9 +90,24 @@ void drawIntroBackground(SDL_Renderer* renderer , Gallery* gallery , Text* textT
     else if(selectLevel == 3)   Texture = gallery->getImage(PIC_HARD);
     frame = getRect(-50 , -100 , 300 , 300);
     SDL_RenderCopy(renderer , Texture , NULL , &frame);
+    //draw font
+    Texture = nullptr;
+    if(selectMap == 0)  Texture = gallery->getImage(PIC_INTRO_FOREST);
+    else if(selectMap == 1)  Texture = gallery->getImage(PIC_INTRO_FIELD);
+    else if(selectMap == 2)  Texture = gallery->getImage(PIC_INTRO_ICE);
+    else if(selectMap == 3)  Texture = gallery->getImage(PIC_INTRO_VOLCANO);
+    frame = getRect(50 , 330 , 300 , 300);
+    SDL_RenderCopy(renderer , Texture , NULL , &frame);
 
     SDL_RenderPresent(renderer);
 //    waitUntilKeyPressed();
+}
+
+void drawPauseGame(SDL_Renderer* renderer , Gallery* gallery)
+{
+    SDL_Rect frame = getRect(200 , 0 , 500 , 500);
+    SDL_RenderCopy(renderer , gallery->getImage(PIC_PAUSE_FRAME) , NULL , &frame);
+    SDL_RenderPresent(renderer);
 }
 
 void drawBackground(SDL_Renderer* renderer , Gallery* gallery , const Game& game , int top , int left)
@@ -103,6 +118,8 @@ void drawBackground(SDL_Renderer* renderer , Gallery* gallery , const Game& game
     if(game.checkMapIce())  Texture = gallery->getImage(PIC_MAP_ICE);
     if(game.checkMapVolcano())  Texture = gallery->getImage(PIC_MAP_VOLCANO);
     SDL_RenderCopy(renderer , Texture , NULL , NULL);
+    SDL_Rect frame = getRect(-5 , -5 , 60 , 60);
+    SDL_RenderCopy(renderer , gallery->getImage(PIC_PAUSE_ICON) , NULL , &frame);
 }
 
 void drawCell(SDL_Renderer* renderer , int left , int top , Position pos , SDL_Texture* Texture)
@@ -304,17 +321,17 @@ bool isContinuePlay(Button* buttonYes , Button* buttonNo , SDL_Renderer* rendere
     bool quit = false;
     SDL_Event e;
     SDL_Rect frame = getRect(270 , 50, 420 , 294);
-//    SDL_RenderCopy(renderer , gallery->getImage(PIC_WOOD_FRAME) , NULL , &frame);
-//    if(isGameOver)
-//    {
-//        textTexture->loadGameFont("GAME OVER" , 40);
-//        textTexture->render(310 , 130);
-//    }
-//    else
-//    {
-//        textTexture->loadGameFont("YOU WIN" , 40);
-//        textTexture->render(340 , 130);
-//    }
+    SDL_RenderCopy(renderer , gallery->getImage(PIC_WOOD_FRAME) , NULL , &frame);
+    if(isGameOver)
+    {
+        textTexture->loadGameFont("GAME OVER" , 40);
+        textTexture->render(310 , 130);
+    }
+    else
+    {
+        textTexture->loadGameFont("YOU WIN" , 40);
+        textTexture->render(340 , 130);
+    }
     textTexture->loadGameFont("Play Continue?" , 20);
     textTexture->render(350 , 200);
     textTexture->loadGameFont("YES" , 20);
