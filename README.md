@@ -25,7 +25,7 @@ Khi vào màn hình Menu Game người chơi có các tùy chọn chế độ ch
 - Ngoài ra người chơi có thể ăn đồ ăn đặc biệt sẽ được tăng thêm 2 độ dài hoặc thu nhập đủ 5 chữ cái của chữ "BONUS" sẽ được hồi đầy máu và thêm 3 độ dài.
 ![image](https://github.com/Skyaducc/Game_UET_SDL2_SNAKE/assets/94954914/583391cf-6187-457b-9bba-e434d6978816)
 
-Người chơi có thể điều khiển con rắn bằng các phím `W` , `A` , `S , `D` hoặc bằng các phím mũi tên tương ứng với 4 hướng di chuyển của rắn.
+Người chơi có thể điều khiển con rắn bằng các phím `W` , `A` , `S` , `D` hoặc bằng các phím mũi tên tương ứng với 4 hướng di chuyển của rắn.
 
 Bấm nút `space bar` nếu muốn dừng game hoặc chọn các chế độ chơi khác.
 
