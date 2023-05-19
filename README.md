@@ -33,4 +33,7 @@ Bấm nút `space bar` nếu muốn dừng game hoặc chọn các chế độ c
 
 Rắn bot được di chuyển theo đường đi ngắn nhất từ vị trí đang đứng tới vị trí của đồ ăn bằng thuật toán `BFS`. Mỗi khi đồ ăn được sinh ra , rắn bot sẽ được tính toán trước đường đi và sẽ di chuyển theo đường đi đó thay vì di chuyển bằng hướng như rắn người chơi.
 
+# Nguồn
+các kĩ thuật lập trình được tham khảo tại https://lazyfoo.net/index.php và thầy Trần Quốc Long
+
 # Chúc bạn có một trải nghiệm game tuyệt vời!!!
