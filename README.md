@@ -6,6 +6,8 @@ SNAKE BATTLE - Game được code bằng C++ và thư viện đồ họa SDL2
 
 Chọn download zip , sau khi download về giải nén và mở file snakeBattle.exe để trải nghiệm trò chơi.
 
+Nếu báo thiếu file dll có thể cài thêm trên trang web https://github.com/libsdl-org/SDL_image/releases
+
 # Cách chơi
 
 Khi vào màn hình Menu Game người chơi có các tùy chọn chế độ chơi như sau :
